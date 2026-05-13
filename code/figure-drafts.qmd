@@ -1,7 +1,15 @@
 ---
 title: "figure-drafts"
 author: "Linda Herrera, Natalie Chen, June McNally"
-format: pdf
+format: 
+  pdf:
+    include-in-header: 
+       text: |
+         \usepackage{fvextra}
+         \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+execute: 
+  warning: false
 ---
 
 ## Set up
@@ -239,7 +247,10 @@ figure4 <- ggplot(data = aq_ins_clean,
   
   facet_wrap(~season,
              scales = "free") +
-  labs(title = "Seasonal Patterns Between Water Temperature and Log + 1 Abundance for Three Dominant Taxa")
+  labs(title = "Seasonal Patterns Between Water Temperature and Log + 1 Abundance for Three Dominant Taxa",
+       x = "Average Temperature (ºC)",
+       y = "log + 1 Transformed Average Abundance/L",
+       color = "Taxon")
 
 
 figure4
