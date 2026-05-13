@@ -183,6 +183,27 @@ aq_ins_clean <- aq_ins |>
 
 ```
 
+```{r}
+#| label: plot-aesthetics
+#| message: false
+#| warning: false
+
+# colors for taxa
+taxon_cols <- c(
+  "ostracod" = "orange2",
+  "copepod" = "tomato3",
+  "cladocera" = "turquoise4")
+
+# setting common theme elements
+theme_set(
+  theme_classic() +
+    theme(text = element_text(size = 12),
+          plot.title.position = "plot",
+          legend.position = "none"))
+
+```
+
+
 ## Figure 1 
 
 ```{r}
