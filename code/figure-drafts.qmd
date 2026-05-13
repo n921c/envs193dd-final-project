@@ -257,10 +257,12 @@ jitter
 ```{r}
 #| label: season graph
 
+# create new object to store figure 4
 figure4 <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = med_temp,
                                  y = log_ave_lit,
                                  color = taxon)) +
+  
   geom_jitter(height = 0,
               shape = 21) + 
   
@@ -272,7 +274,9 @@ figure4 <- ggplot(data = aq_ins_clean,
 for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
-       color = "Taxon")
+       color = "Taxon") +
+  
+  scale_color_manual(values = taxon_cols)
 
 
 figure4
