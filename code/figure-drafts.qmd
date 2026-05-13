@@ -232,7 +232,8 @@ jitter <- ggplot(data = aq_ins_clean,
                fun = "mean",
                size = 4,
                color = "black",
-               shape = 18) + # 18 = filled diamond
+               shape = 18) + # 18 = filled diamond 
+  scale_color_manual(values = taxon_cols)
   labs(x = "Taxon",
        y = "log + 1 transformed average abundance/L",
        title = "Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Tax")
