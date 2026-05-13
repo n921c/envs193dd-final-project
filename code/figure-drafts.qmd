@@ -175,7 +175,6 @@ aq_ins_clean <- aq_ins |>
 
 ```
 
-
 ## Figure 1 
 
 ```{r}
@@ -190,26 +189,26 @@ aq_ins_clean <- aq_ins |>
 #| message: false
 #| warning: false
 
-# creating new object for jitter plot
 jitter <- ggplot(data = aq_ins_clean,
-                 mapping = aes(x = taxon_list_clean,
-                               y = log_ave_lit,
-                               color = taxon)) +
-  # jitter with adjustments
-  geom_jitter(height = 0,     # no jitter along y-axis
-              alpha = 0.5,    # transparent shapes
-              width = 0.2,    # narrowing jitter
-              shape = 21) +   # open circles
-  # coloring 
-  scale_color_manual(values = taxon) +
-  # relabelling x- and y-axes, adding title
+                 aes(x = taxon,
+                     y = log_ave_lit,
+                     color = taxon)) +
+  
+  geom_jitter(height = 0,
+              alpha = 1,
+              width = 0.2,
+              shape = 21) +
+   # second layer: points to represent medians
+  stat_summary(geom = "point",
+               fun = "mean",
+               size = 4,
+               color = "black",
+               shape = 18) + # 18 = filled diamond
   labs(x = "Taxon",
-       y = "Salinity (ppt)",
-       title = "Strip chart")
+       y = "log + 1 transformed average abundance/L",
+       title = "Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Tax")
 
-# displaying object
 jitter
-
 
 ```
 
