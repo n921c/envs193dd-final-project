@@ -274,10 +274,7 @@ figure4 <- ggplot(data = aq_ins_clean,
                                  y = log_ave_lit,
                                  color = taxon)) +
   
-  geom_jitter(height = 0,
-              shape = 21) + 
-  
-  geom_line() +
+  geom_point() + 
 
   facet_wrap(~season,
              scales = "free") +
@@ -287,7 +284,11 @@ figure4 <- ggplot(data = aq_ins_clean,
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
 
-  scale_color_manual(values = taxon_cols)
+  scale_color_manual(values = taxon_cols) +
+  
+  theme(legend.position = "right")
+  
+  
 
 
 figure4
