@@ -233,7 +233,13 @@ jitter <- ggplot(data = aq_ins_clean,
                size = 4,
                color = "black",
                shape = 18) + # 18 = filled diamond 
-  scale_color_manual(values = taxon_cols)
+  
+   stat_summary(geom = "errorbar",
+               fun.data = mean_se,
+               width = 0.1,
+               color = "black") +
+  
+  scale_color_manual(values = taxon_cols) +
   labs(x = "Taxon",
        y = "log + 1 transformed average abundance/L",
        title = "Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Tax")
@@ -267,7 +273,7 @@ figure4 <- ggplot(data = aq_ins_clean,
               shape = 21) + 
   
   geom_line() +
-  
+
   facet_wrap(~season,
              scales = "free") +
   labs(title = "Seasonal Patterns Between Water Temperature and Log + 1 Abundance
@@ -276,7 +282,6 @@ for Three Dominant Taxa",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
 
-  
   scale_color_manual(values = taxon_cols)
 
 
