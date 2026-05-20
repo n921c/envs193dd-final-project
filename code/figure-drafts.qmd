@@ -209,6 +209,8 @@ theme_set(
 #| label: scatterplot
 #| message: false
 #| warning: false
+#| length: 5
+#| width: 8
 
 figure1 <- ggplot(data = aq_ins_clean,
                   mapping = aes(x = med_temp,
@@ -223,6 +225,9 @@ figure1 <- ggplot(data = aq_ins_clean,
        color = "Taxon") +
 
   scale_color_manual(values = taxon_cols) +
+  
+  theme(legend.position = "right")
+  
   
 
 figure1
