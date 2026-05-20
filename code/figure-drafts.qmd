@@ -36,6 +36,7 @@ library(readxl)
 # arranging plots
 library(patchwork)
 library(ggridges)
+
 ```
 
 ### Data
@@ -366,6 +367,7 @@ figure4
 ## Plan for elective (if completing)
 
 Timeline
+
 Week 7:
 
 - Research all three organisms (copepod, ostracod, cladoceran)
