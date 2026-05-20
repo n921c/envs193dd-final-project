@@ -194,6 +194,17 @@ taxon_cols <- c(
   "copepod" = "tomato3",
   "cladocera" = "turquoise4")
 
+sites_cols <- c(
+  "NDC" = "hotpink3",
+  "NEC" = "cyan3",
+  "NMC" = "lightpink2",
+  "NPB" = "slateblue3",
+  "NPB1" = "steelblue3",
+  "NPB2" = "green3",
+  "NVBR" = "maroon3"
+  
+)
+
 # setting common theme elements
 theme_set(
   theme_classic() +
@@ -274,6 +285,31 @@ figure2
 ## Figure 3 
 
 ```{r}
+#| label: figure 3
+#| length: 5
+#| width: 8
+
+# create new object to store figure 4
+figure3 <- ggplot(data = aq_ins_clean,
+                   mapping = aes(x = med_temp,
+                                 y = log_ave_lit,
+                                 color = site)) +
+  
+  geom_point() + 
+
+  facet_wrap(~taxon,
+             scales = "free") +
+  
+  theme(legend.position = "right") +
+  
+  scale_color_manual(values = sites_cols)
+  
+  
+  
+  
+
+figure3
+
 
 ```
 
