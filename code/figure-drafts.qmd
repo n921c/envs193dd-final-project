@@ -266,7 +266,7 @@ figure4 <- ggplot(data = aq_ins_clean,
   geom_jitter(height = 0,
               shape = 21) + 
   
-  geom_smooth(method = "lm", se = FALSE) +
+  geom_line() +
   
   facet_wrap(~season,
              scales = "free") +
@@ -275,15 +275,12 @@ for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
+
   
   scale_color_manual(values = taxon_cols)
 
 
 figure4
-
-
-
-
 
 ```
 
