@@ -35,6 +35,7 @@ library(readxl)
 
 # arranging plots
 library(patchwork)
+library(ggridges)
 ```
 
 ### Data
@@ -217,7 +218,8 @@ theme_set(
 #| label: scatterplot
 #| message: false
 #| warning: false
-#| length: 5
+#| fig-width: 8
+#| length: null
 #| width: 8
 
 figure1 <- ggplot(data = aq_ins_clean,
@@ -227,7 +229,8 @@ figure1 <- ggplot(data = aq_ins_clean,
   geom_point() + 
 
   facet_wrap(~site_full) +
-  labs(title = "Relationship Between Water Temperature and Invertebrate Abundance by Species and Site",
+  labs(title = "Relationship Between Water Temperature and Invertebrate
+       Abundance by Species and Site",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
@@ -317,6 +320,9 @@ figure3
 
 
 ```
+
+
+
 
 
 
