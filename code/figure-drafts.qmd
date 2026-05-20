@@ -179,6 +179,10 @@ aq_ins_clean <- aq_ins |>
   season = factor(season, levels = c("Spring", "Summer", "Fall", "Winter"))) |># <-- Fig 4
   mutate(taxon = factor(taxon, levels = c("copepod", "ostracod", "cladocera")))
 
+#ADD: capitalizing invertebrate names
+aq_ins_clean$taxon <- str_to_sentence(aq_ins_clean$taxon)
+  
+
 ```
 
 ### Setting plot aesthetics
@@ -330,8 +334,9 @@ figure3a
 
 ```{r}
 #| label: figure 3b
-#| fig-height: 5 
-#| fig-width: 11
+#| fig-height: 6
+#| fig-width: 10
+
 
 # create new object to store figure 3b
 figure3b <- ggplot(data = aq_ins_clean,
@@ -341,8 +346,7 @@ figure3b <- ggplot(data = aq_ins_clean,
   
   geom_point() + 
 
-  facet_wrap(~taxon,
-             scales = "free") +
+  facet_wrap(~taxon) +
   
   theme(legend.position = "right") +
   
@@ -350,14 +354,10 @@ figure3b <- ggplot(data = aq_ins_clean,
   
   labs(title = "Figure 3b:
 
-Average Abundance and Average Water Temperature for Three Dominant Taxa
-by Site",
+Average Abundance and Average Water Temperature for Three Dominant Taxa by Site",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
-       color = "Site") +
-  
-   # wrapping x axis labels
-scale_x_discrete(labels = label_wrap(width = 15))
+       color = "Site") 
   
   
 figure3b
