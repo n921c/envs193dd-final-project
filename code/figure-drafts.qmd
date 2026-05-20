@@ -221,9 +221,9 @@ theme_set(
 #| label: scatterplot
 #| message: false
 #| warning: false
+#| fig-height: 5 
 #| fig-width: 8
-#| length: null
-#| width: 8
+
 
 figure1 <- ggplot(data = aq_ins_clean,
                   mapping = aes(x = med_temp,
@@ -232,8 +232,8 @@ figure1 <- ggplot(data = aq_ins_clean,
   geom_point() + 
 
   facet_wrap(~site_full) +
-  labs(title = "Relationship Between Water Temperature and Invertebrate
-       Abundance by Species and Site",
+  labs(title = "Figure 1:
+Relationship Between Water Temperature and Invertebrate Abundance by Species and Site",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
@@ -254,8 +254,8 @@ figure1
 #| label: strip-chart
 #| message: false
 #| warning: false
-#| length: 6
-#| width: 8
+#| fig-height: 5 
+#| fig-width: 8
 
 figure2 <- ggplot(data = aq_ins_clean,
                  aes(x = taxon,
@@ -293,8 +293,9 @@ figure2
 
 ```{r}
 #| label: figure 3
-#| length: 5
-#| width: 8
+#| fig-height: 5 
+#| fig-width: 8
+
 
 # create new object to store figure 4
 figure3 <- ggplot(data = aq_ins_clean,
@@ -328,8 +329,8 @@ figure3
 
 ```{r}
 #| label: season graph
-#| length: 5
-#| width: 8
+#| fig-height: 5 
+#| fig-width: 8
 
 # create new object to store figure 4
 figure4 <- ggplot(data = aq_ins_clean,
