@@ -35,9 +35,6 @@ library(readxl)
 
 # arranging plots
 library(patchwork)
-
-# coloring
-library(wesanderson)
 ```
 
 ### Data
