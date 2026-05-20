@@ -203,13 +203,31 @@ theme_set(
 
 ```
 
-
 ## Figure 1 
 
 ```{r}
- 
-```
+#| label: scatterplot
+#| message: false
+#| warning: false
 
+figure1 <- ggplot(data = aq_ins_clean,
+                  mapping = aes(x = med_temp,
+                                y = log_ave_lit,
+                                color = taxon)) +
+  geom_point() + 
+
+  facet_wrap(~site_full) +
+  labs(title = "Relationship Between Water Temperature and Invertebrate Abundance by Species and Site",
+       x = "Average Temperature (ºC)",
+       y = "log + 1 Transformed Average Abundance/L",
+       color = "Taxon") +
+
+  scale_color_manual(values = taxon_cols) +
+  
+
+figure1
+
+```
 
 ## Figure 2 - Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Tax
 
@@ -218,7 +236,7 @@ theme_set(
 #| message: false
 #| warning: false
 
-jitter <- ggplot(data = aq_ins_clean,
+figure2 <- ggplot(data = aq_ins_clean,
                  aes(x = taxon,
                      y = log_ave_lit,
                      color = taxon)) +
@@ -227,7 +245,7 @@ jitter <- ggplot(data = aq_ins_clean,
               alpha = 1,
               width = 0.2,
               shape = 21) +
-   # second layer: points to represent medians
+  # second layer: points to represent medians
   stat_summary(geom = "point",
                fun = "mean",
                size = 4,
@@ -244,7 +262,7 @@ jitter <- ggplot(data = aq_ins_clean,
        y = "log + 1 transformed average abundance/L",
        title = "Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Tax")
 
-jitter
+figure2
 
 ```
 
