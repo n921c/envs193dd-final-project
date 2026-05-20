@@ -1,5 +1,5 @@
 ---
-title: "timeline check-in"
+title: "Timeline Check-in"
 author: "Linda Herrera, Natalie Chen, June McNally"
 format: 
   pdf:
@@ -222,7 +222,7 @@ theme_set(
 #| label: scatterplot
 #| message: false
 #| warning: false
-#| fig-height: 5 
+#| fig-height: 6
 #| fig-width: 8
 
 
@@ -235,7 +235,7 @@ figure1 <- ggplot(data = aq_ins_clean,
   facet_wrap(~site_full) +
   labs(title = "Figure 1:
 
-Relationship Between Water Temperature and Invertebrate Abundance by Species and Site",
+Dominant Three Taxa Abundance and Average Water Temperature by Site",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
@@ -285,24 +285,57 @@ figure2 <- ggplot(data = aq_ins_clean,
        y = "log + 1 transformed average abundance/L",
        title = "Figure 2:
 
-Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Taxa")
+Mean and Distribution of Average Abundance for Three Dominant Taxa")
 
 figure2
 
 ```
 
 
-### Figure 3 
+### Figure 3a 
 
 ```{r}
-#| label: figure 3
+#| label: figure 3a
 #| fig-height: 5 
 #| fig-width: 8
 
 
 # create new object to store figure 4
-figure3 <- ggplot(data = aq_ins_clean,
+figure3a <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = med_temp,
+                                 y = log_ave_lit)) +
+  
+  geom_point() + 
+
+  facet_wrap(~taxon,
+             scales = "free") +
+  
+  theme(legend.position = "right")+
+  
+  labs(title = "Figure 3a:
+
+Average Abundance and Average Water Temperature for Three Dominant Taxa",
+       x = "Average Temperature (ºC)",
+       y = "log + 1 Transformed Average Abundance/L",
+       color = "Site")
+  
+  
+figure3a
+
+
+```
+
+
+### Figure 3b
+
+```{r}
+#| label: figure 3b
+#| fig-height: 5 
+#| fig-width: 11
+
+# create new object to store figure 3b
+figure3b <- ggplot(data = aq_ins_clean,
+                   mapping = aes(x = site,
                                  y = log_ave_lit,
                                  color = site)) +
   
@@ -315,20 +348,22 @@ figure3 <- ggplot(data = aq_ins_clean,
   
   scale_color_manual(values = sites_cols) +
   
-  labs(title = "Figure 3:
+  labs(title = "Figure 3b:
 
-Site Patterns Between Water Temperature and Log + 1 Abundance for Three Dominant Taxa",
+Average Abundance and Average Water Temperature for Three Dominant Taxa
+by Site",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
-       color = "Site")
+       color = "Site") +
+  
+   # wrapping x axis labels
+scale_x_discrete(labels = label_wrap(width = 15))
   
   
-figure3
+figure3b
 
 
 ```
-
-
 ### Figure 4
 
 ```{r}
@@ -348,8 +383,7 @@ figure4 <- ggplot(data = aq_ins_clean,
              scales = "free") +
   labs(title = "Figure 4:
 
-Seasonal Patterns Between Water Temperature and Log + 1 Abundance
-for Three Dominant Taxa",
+Average Abundance and Average Water Temperature by Season for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
