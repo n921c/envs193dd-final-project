@@ -217,6 +217,8 @@ theme_set(
 #| label: strip-chart
 #| message: false
 #| warning: false
+#| length: 6
+#| width: 8
 
 jitter <- ggplot(data = aq_ins_clean,
                  aes(x = taxon,
@@ -242,7 +244,8 @@ jitter <- ggplot(data = aq_ins_clean,
   scale_color_manual(values = taxon_cols) +
   labs(x = "Taxon",
        y = "log + 1 transformed average abundance/L",
-       title = "Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Tax")
+       title = " Mean and Distribution of Invertebrate Abundance (log +1/L)
+       for Three Tax")
 
 jitter
 
@@ -262,6 +265,8 @@ jitter
 
 ```{r}
 #| label: season graph
+#| length: 5
+#| width: 8
 
 # create new object to store figure 4
 figure4 <- ggplot(data = aq_ins_clean,
@@ -276,8 +281,8 @@ figure4 <- ggplot(data = aq_ins_clean,
 
   facet_wrap(~season,
              scales = "free") +
-  labs(title = "Seasonal Patterns Between Water Temperature and Log + 1 Abundance
-for Three Dominant Taxa",
+  labs(title = " Seasonal Patterns Between Water Temperature and Log + 1
+       Abundance for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
