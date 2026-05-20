@@ -234,6 +234,7 @@ figure1 <- ggplot(data = aq_ins_clean,
 
   facet_wrap(~site_full) +
   labs(title = "Figure 1:
+
 Relationship Between Water Temperature and Invertebrate Abundance by Species and Site",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
@@ -282,8 +283,9 @@ figure2 <- ggplot(data = aq_ins_clean,
   scale_color_manual(values = taxon_cols) +
   labs(x = "Taxon",
        y = "log + 1 transformed average abundance/L",
-       title = " Mean and Distribution of Invertebrate Abundance (log +1/L)
-       for Three Tax")
+       title = "Figure 2:
+
+Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Taxa")
 
 figure2
 
@@ -313,8 +315,9 @@ figure3 <- ggplot(data = aq_ins_clean,
   
   scale_color_manual(values = sites_cols) +
   
-  labs(title = " Site Patterns Between Water Temperature and Log + 1
-       Abundance for Three Dominant Taxa",
+  labs(title = "Figure 3:
+
+Site Patterns Between Water Temperature and Log + 1 Abundance for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Site")
@@ -343,8 +346,10 @@ figure4 <- ggplot(data = aq_ins_clean,
 
   facet_wrap(~season,
              scales = "free") +
-  labs(title = " Seasonal Patterns Between Water Temperature and Log + 1
-       Abundance for Three Dominant Taxa",
+  labs(title = "Figure 4:
+
+Seasonal Patterns Between Water Temperature and Log + 1 Abundance
+for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
@@ -362,9 +367,46 @@ figure4
 ## Other exploratory visualizations
 **BELOW PASTE IN THE OTHER EXPLORATORY VISUALS**
 
-### exploring 
 
-## Plan for elective (if completing)
+```{r}
+#| label: exploratory-ridgeline-plot
+
+# creating new object for ridgeline
+ridges <- ggplot(data = aq_ins_clean,
+                 # x-axis: avg temp
+                 # y-axis: avg abund
+                 # fill geometries by site
+                 mapping = aes(x = log_ave_lit,
+                               y = taxon,
+                               fill = taxon)) +
+  # ridges (scale makes ridges shorter so that they don't overlap)
+  geom_density_ridges(scale = 0.8) +
+  
+  # adding means and 95% confidence intervals
+  stat_summary(geom = "pointrange",
+               fun.data = mean_cl_normal,
+               size = 0.75,
+               linewidth = 1) +
+  # filling geometries with color
+  scale_fill_manual(values = sites_cols) +
+  # setting y-axis expansions
+  scale_y_discrete(expand = expansion(mult = c(0.01, 0.15))) +
+  # relabelling x- and y-axis
+  labs(x = "avg",
+       y = "taxon")
+
+# displaying object
+ridges
+```
+
+## Ideas of Analysis for Background 
+
+
+-
+
+
+
+## Plan for elective
 
 Timeline
 
