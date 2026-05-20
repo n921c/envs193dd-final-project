@@ -1,5 +1,5 @@
 ---
-title: "figure-drafts"
+title: "timeline check-in"
 author: "Linda Herrera, Natalie Chen, June McNally"
 format: 
   pdf:
@@ -63,7 +63,6 @@ water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx")
 ```
 
 ## Cleaning and Wrangling 
-
 
 ### Cleaning
 
@@ -181,6 +180,8 @@ aq_ins_clean <- aq_ins |>
 
 ```
 
+### Setting plot aesthetics
+
 ```{r}
 #| label: plot-aesthetics
 #| message: false
@@ -212,7 +213,9 @@ theme_set(
 
 ```
 
-## Figure 1 
+## Visualizations directly relevant to answering questions
+
+### Figure 1 
 
 ```{r}
 #| label: scatterplot
@@ -245,7 +248,7 @@ figure1
 
 ```
 
-## Figure 2 - Mean and Distribution of Invertebrate Abundance (log +1/L) for Three Tax
+### Figure 2
 
 ```{r}
 #| label: strip-chart
@@ -286,8 +289,7 @@ figure2
 ```
 
 
-
-## Figure 3 
+### Figure 3 
 
 ```{r}
 #| label: figure 3
@@ -322,11 +324,7 @@ figure3
 ```
 
 
-
-
-
-
-## Figure 4
+### Figure 4
 
 ```{r}
 #| label: season graph
@@ -359,10 +357,39 @@ figure4
 ```
 
 
+## Other exploratory visualizations
+**BELOW PASTE IN THE OTHER EXPLORATORY VISUALS**
 
+### exploring 
 
+## Plan for elective (if completing)
 
+Timeline
+Week 7:
 
+- Research all three organisms (copepod, ostracod, cladoceran)
+- Gather reference images 
+- Review your figures 
+- Take notes on what each figure shows about the species 
+- Brainstorm collage/drawing style and decide on materials (digital vs. physical).
 
+Week 8 * timeline check-in*: 
 
+- Have a rough sketch/draft of all three 2D collages– one per organism
+- Bring your notes on what the figures show about each species. This is our plan and draft milestone.
+
+Week 9:
+
+- Refine and finalize the artwork for 1–2 of the organisms
+- Fill in your species notes with complete observations from your figures.
+
+Week 10: 
+
+- Complete the third organism's artwork and finish all species notes
+- Do a full review, make sure each collage clearly reflects what your figures show about that species.
+
+Finals week:
+
+- Final polish, compile everything together
+- Present your completed 2D collage triptych with notes.
 
