@@ -492,11 +492,17 @@ For our final visualization, we decided on a physical drawing. Each organism wil
 
 **Gathering Images and Research on Organisms**
 
-![](copepods-research.jpg){width=85%}
+![](copepods-research.jpg){width=87%}
 
-![](ostracods-research.jpg){width=85%}
+![](ostracods-research.jpg){width=87%}
 
-![](cladocera-research.jpg){width=85%}
+![](cladocera-research.jpg){width=87%}
 
+**Rough Draft of Organisms**
 
+![](copepod-rough-draft.jpeg){width=85%}
+
+![](ostracod-rough-draft.jpeg){width=85%}
+
+![](cladocera-rough-draft.jpeg){width=85%}
 
