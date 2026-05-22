@@ -8,6 +8,12 @@ format:
          \usepackage{fvextra}
          \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
          \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+         \usepackage{xcolor}
+         \definecolor{coldblue}{RGB}{31, 73, 163}
+         \definecolor{lightblue}{RGB}{166, 185, 226}
+         \definecolor{lightyellow}{RGB}{255, 230, 150}
+         \definecolor{softorange}{RGB}{240, 160, 90}
+         \definecolor{hotred}{RGB}{196, 30, 38}
 execute: 
   warning: false
 ---
@@ -229,7 +235,7 @@ theme_set(
 #| fig-height: 6
 #| fig-width: 8
 
-
+# create new object to store figure 1
 figure1 <- ggplot(data = aq_ins_clean,
                   mapping = aes(x = med_temp,
                                 y = log_ave_lit,
@@ -263,6 +269,7 @@ figure1
 #| fig-height: 5 
 #| fig-width: 8
 
+# create new object to store figure 2
 figure2 <- ggplot(data = aq_ins_clean,
                  aes(x = taxon,
                      y = log_ave_lit,
@@ -304,7 +311,7 @@ figure2
 #| fig-width: 8
 
 
-# create new object to store figure 4
+# create new object to store figure 3a
 figure3a <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = med_temp,
                                  y = log_ave_lit)) +
@@ -399,8 +406,6 @@ figure4
 
 
 ## Other exploratory visualizations
-**BELOW PASTE IN THE OTHER EXPLORATORY VISUALS**
-
 
 ```{r}
 #| label: exploratory-ridgeline-plot
@@ -442,7 +447,7 @@ ridges
 
 ## Plan for elective
 
-Timeline
+**Timeline**
 
 Week 7:
 
@@ -452,7 +457,7 @@ Week 7:
 - Take notes on what each figure shows about the species 
 - Brainstorm collage/drawing style and decide on materials (digital vs. physical).
 
-Week 8 * timeline check-in*: 
+Week 8 (timeline check-in): 
 
 - Have a rough sketch/draft of all three 2D collages– one per organism
 - Bring your notes on what the figures show about each species. This is our plan and draft milestone.
@@ -471,4 +476,27 @@ Finals week:
 
 - Final polish, compile everything together
 - Present your completed 2D collage triptych with notes.
+
+________________________________________________________________________________________
+
+**Visualization Approach and Temperature Color Scale**
+
+
+For our final visualization, we decided on a physical drawing. Each organism will be represented by an outline, filled with paint and pastels to illustrate the relationship between abundance and temperature. The colors inside each outline correspond to a temperature-based heat range, divided into five equal intervals spanning the full range of recorded temperatures (10.20°C – 37.30°C):
+
+- \textcolor{coldblue}{10.0°C – 15.6°C}
+- \textcolor{lightblue}{15.6°C – 21.2°C}
+- \textcolor{lightyellow}{21.2°C – 26.8°C}
+- \textcolor{softorange}{26.8°C – 32.4°C}
+- \textcolor{hotred}{32.4°C – 38.0°C}
+
+**Gathering Images and Research on Organisms**
+
+![](copepods-research.jpg){width=85%}
+
+![](ostracods-research.jpg){width=85%}
+
+![](cladocera-research.jpg){width=85%}
+
+
 
