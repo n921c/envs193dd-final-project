@@ -451,7 +451,7 @@ North Campus Open Space, it was noted that the highest species diversity was fou
 
 Important Questions and relationships that can be explored:
 
-Why is this data important; why are these species important? What do they indicate about the health of the area, and what is their role among the trophic levels? What is the relationsip between aquatic invertebrate and water quality? What do they eat, what eats them? Does the data point towards the health of the ecosystem as a whole? Are there issues that arise with the presence of these species? Is there a relationship between salinity and temperature?
+Why is this data important; why are these species important? What do they indicate about the health of the area, and what is their role among the trophic levels? What is the relationship between aquatic invertebrates and temperature, and what does this mean about the health of the ecosystem? Does abundance vary across site or across season? Is there a relationship between salinity and temperature? The coding that explores these relationships is listed above during the creation of the visualizations.
 
 Links to reports:
 
