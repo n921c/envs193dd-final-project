@@ -106,15 +106,31 @@ taxon_list_clean <- taxon_list |>
 #| message: false
 
 water_quality_clean <- water_quality |> 
+  
+  # cleaning column names
   clean_names() |> 
+  
+   # filtering join: only include sites in ncos_sites
+  # keep all the rows on the left that match up with rows on the right
   semi_join(ncos_sites, by = "site") |> 
+  
+  # combine date and site together and remove those indiv. columns
   unite("date_site", date, site, remove = TRUE) |> 
+  
+  # combine date and site together and remove those indiv. columns
   group_by(date_site) |> 
+  
+  # create new columns that show median of each variable at each date_site
+  # because there are multiple samples at the same site at different depths
   summarize(med_ph    = median(p_h, na.rm = TRUE),
             med_sal   = median(salinity_ppt, na.rm = TRUE),
             med_do    = median(dissolved_oxygen_mg_l, na.rm = TRUE),
             med_temp  = median(temperature_c, na.rm = TRUE)) |>   # <-- ADD THIS
+  
+  # ungroup
   ungroup() |> 
+  
+  # take out outlier
   filter(date_site != "2022-08-12_NVBR")
 
 ```
@@ -235,14 +251,18 @@ theme_set(
 #| fig-height: 6
 #| fig-width: 8
 
-# create new object to store figure 1
+# base layer: create new object to store figure 1
 figure1 <- ggplot(data = aq_ins_clean,
                   mapping = aes(x = med_temp,
                                 y = log_ave_lit,
                                 color = taxon)) +
+  # first layer: points
   geom_point() + 
-
+  
+  # facet by site
   facet_wrap(~site_full) +
+  
+  # labels 
   labs(title = "Figure 1:
 
 Dominant Three Taxa Abundance and Average Water Temperature by Site",
@@ -250,8 +270,10 @@ Dominant Three Taxa Abundance and Average Water Temperature by Site",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
 
+  # manual colors
   scale_color_manual(values = taxon_cols) +
   
+  # adding legend
   theme(legend.position = "right")
   
   
@@ -269,16 +291,18 @@ figure1
 #| fig-height: 5 
 #| fig-width: 8
 
-# create new object to store figure 2
+# base layer: create new object to store figure 2
 figure2 <- ggplot(data = aq_ins_clean,
                  aes(x = taxon,
                      y = log_ave_lit,
                      color = taxon)) +
   
+  # first layer: jitter plot
   geom_jitter(height = 0,
               alpha = 1,
               width = 0.2,
               shape = 21) +
+  
   # second layer: points to represent medians
   stat_summary(geom = "point",
                fun = "mean",
@@ -291,7 +315,10 @@ figure2 <- ggplot(data = aq_ins_clean,
                width = 0.1,
                color = "black") +
   
+  # colors 
   scale_color_manual(values = taxon_cols) +
+  
+  # titles
   labs(x = "Taxon",
        y = "log + 1 transformed average abundance/L",
        title = "Figure 2:
@@ -311,18 +338,21 @@ figure2
 #| fig-width: 8
 
 
-# create new object to store figure 3a
+# base layer: create new object to store figure 3a
 figure3a <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = med_temp,
                                  y = log_ave_lit)) +
-  
+  # first layer: points
   geom_point() + 
 
+  # facet by taxon
   facet_wrap(~taxon,
              scales = "free") +
   
+  # add legend
   theme(legend.position = "right")+
   
+  # labels
   labs(title = "Figure 3a:
 
 Average Abundance and Average Water Temperature for Three Dominant Taxa",
@@ -345,20 +375,25 @@ figure3a
 #| fig-width: 10
 
 
-# create new object to store figure 3b
+# base layer: create new object to store figure 3b
 figure3b <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = site,
                                  y = log_ave_lit,
                                  color = site)) +
   
+  # first layer: points
   geom_point() + 
 
+  # facet by taxon
   facet_wrap(~taxon) +
   
+  # add legend
   theme(legend.position = "right") +
   
+  # manual colors
   scale_color_manual(values = sites_cols) +
   
+  # labels and title
   labs(title = "Figure 3b:
 
 Average Abundance and Average Water Temperature for Three Dominant Taxa by Site",
@@ -378,25 +413,30 @@ figure3b
 #| fig-height: 5 
 #| fig-width: 8
 
-# create new object to store figure 4
+# base layer: create new object to store figure 4
 figure4 <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = med_temp,
                                  y = log_ave_lit,
                                  color = taxon)) +
-  
+  # first layer: points
   geom_point() + 
 
+  # facet by season
   facet_wrap(~season,
              scales = "free") +
+  
+  # titles and labels
   labs(title = "Figure 4:
 
 Average Abundance and Average Water Temperature by Season for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Taxon") +
-
+  
+  # manual colors
   scale_color_manual(values = taxon_cols) +
   
+  # legend
   theme(legend.position = "right")
 
 
