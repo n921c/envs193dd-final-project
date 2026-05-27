@@ -200,9 +200,9 @@ aq_ins_clean$taxon <- str_to_sentence(aq_ins_clean$taxon)
 
 # colors for taxa
 taxon_cols <- c(
-  "ostracod" = "orange2",
-  "copepod" = "tomato3",
-  "cladocera" = "turquoise4")
+  "Ostracod" = "orange2",
+  "Copepod" = "tomato3",
+  "Cladocera" = "turquoise4")
 
 sites_cols <- c(
   "NDC" = "hotpink3",
@@ -408,7 +408,7 @@ figure4
 ## Other exploratory visualizations
 
 ```{r}
-#| label: exploratory-ridgeline-plot
+#| label: fig 5 exploratory-ridgeline-plot
 
 # creating new object for ridgeline
 ridges <- ggplot(data = aq_ins_clean,
@@ -431,8 +431,11 @@ ridges <- ggplot(data = aq_ins_clean,
   # setting y-axis expansions
   scale_y_discrete(expand = expansion(mult = c(0.01, 0.15))) +
   # relabelling x- and y-axis
-  labs(x = "avg",
-       y = "taxon")
+labs(title = "Exploratory Figure 5:
+
+Ridge Figure Average Abundance for Three Dominant Taxa",
+       y = "Taxon",
+       x = "log + 1 Transformed Average Abundance/L") 
 
 # displaying object
 ridges
