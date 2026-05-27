@@ -337,11 +337,24 @@ figure2
 #| fig-height: 5 
 #| fig-width: 8
 
+aq_ins_clean <- aq_ins_clean |>
+  mutate(temp_range = cut(med_temp,
+                          breaks = c(10.0, 15.6, 21.2, 26.8, 32.4, 38.0),
+                          labels = c("10.0-15.6C", "15.6-21.2C", "21.2-26.8C", 
+                                     "26.8-32.4C", "32.4-38.0C"),
+                          include.lowest = TRUE),
+         point_color = if_else(log_ave_lit == 0, "Zero Abundance", as.character(temp_range)),
+         point_color = factor(point_color, levels = c("10.0-15.6C", "15.6-21.2C", 
+                                                       "21.2-26.8C", "26.8-32.4C", 
+                                                       "32.4-38.0C", "Zero Abundance")))
+
+
 
 # base layer: create new object to store figure 3a
 figure3a <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = med_temp,
-                                 y = log_ave_lit)) +
+                                 y = log_ave_lit,
+                                 color = temp_range)) +
   # first layer: points
   geom_point() + 
 
@@ -358,7 +371,20 @@ figure3a <- ggplot(data = aq_ins_clean,
 Average Abundance and Average Water Temperature for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
        y = "log + 1 Transformed Average Abundance/L",
-       color = "Site")
+color = "Temperature Range") +
+  
+  scale_x_continuous(
+    breaks = c(10.0, 15.6, 21.2, 26.8, 32.4, 38.0),
+    limits = c(10.0, 38.0)) +
+  
+  scale_color_manual(values = c(
+    "10.0-15.6C" = "steelblue",
+    "15.6-21.2C" = "skyblue",
+    "21.2-26.8C" = "gold",
+    "26.8-32.4C" = "orange",
+    "32.4-38.0C" = "tomato3",
+    "Zero Abundance" = "black"
+  ), na.value = "grey50")
   
   
 figure3a
