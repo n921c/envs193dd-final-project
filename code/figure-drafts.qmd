@@ -125,7 +125,7 @@ water_quality_clean <- water_quality |>
   summarize(med_ph    = median(p_h, na.rm = TRUE),
             med_sal   = median(salinity_ppt, na.rm = TRUE),
             med_do    = median(dissolved_oxygen_mg_l, na.rm = TRUE),
-            med_temp  = median(temperature_c, na.rm = TRUE)) |>   # <-- ADD THIS
+            med_temp  = median(temperature_c, na.rm = TRUE)) |>
   
   # ungroup
   ungroup() |> 
@@ -188,10 +188,10 @@ aq_ins_clean <- aq_ins |>
   mutate(site_full = fct_reorder(site_full, med_sal, .fun = "median", .na_rm = TRUE),
          site_full = fct_rev(site_full)) |> 
   
-  # ADD: log+1 transform of average abundance per liter
+  # log+1 transform of average abundance per liter
   mutate(log_ave_lit = log(ave_lit + 1)) |>                        # <-- Fig 1, 2, 3, 4
   
-  # ADD: season derived from date
+  # season derived from date
   mutate(season = case_when(
     month(date) %in% c(3, 4, 5)  ~ "Spring",
     month(date) %in% c(6, 7, 8)  ~ "Summer",
@@ -201,7 +201,7 @@ aq_ins_clean <- aq_ins |>
   season = factor(season, levels = c("Spring", "Summer", "Fall", "Winter"))) |># <-- Fig 4
   mutate(taxon = factor(taxon, levels = c("copepod", "ostracod", "cladocera")))
 
-#ADD: capitalizing invertebrate names
+# capitalizing invertebrate names
 aq_ins_clean$taxon <- str_to_sentence(aq_ins_clean$taxon)
   
 
@@ -242,7 +242,7 @@ theme_set(
 
 ## Visualizations directly relevant to answering questions
 
-### Figure 1 
+### Figure 1
 
 ```{r}
 #| label: scatterplot
@@ -329,11 +329,50 @@ figure2
 
 ```
 
-
-### Figure 3a 
+### Figure 3 - What is the strength of the relationship between water temperature and invertebrate abundance, and does this differ by season?
 
 ```{r}
-#| label: figure 3a
+#| label: fig3-exploratory-season-graph
+#| fig-height: 5 
+#| fig-width: 8
+
+# base layer: create new object to store figure 4
+figure3 <- ggplot(data = aq_ins_clean,
+                   mapping = aes(x = med_temp,
+                                 y = log_ave_lit,
+                                 color = taxon)) +
+  # first layer: points
+  geom_point() + 
+
+  # facet by season
+  facet_wrap(~season,
+             scales = "free") +
+  
+  # titles and labels
+  labs(title = "Figure 3:
+
+Average Abundance and Average Water Temperature by Season for Three Dominant Taxa",
+       x = "Average Temperature (ºC)",
+       y = "log + 1 Transformed Average Abundance/L",
+       color = "Taxon") +
+  
+  # manual colors
+  scale_color_manual(values = taxon_cols) +
+  
+  # legend
+  theme(legend.position = "right")
+
+
+figure3
+
+```
+
+## Other exploratory visualizations
+
+### Figure 4 - How does abundance vary across temperature ranges for each taxon?
+
+```{r}
+#| label: fig4-abundance-by-temperature-ranges
 #| fig-height: 5 
 #| fig-width: 8
 
@@ -351,7 +390,7 @@ aq_ins_clean <- aq_ins_clean |>
 
 
 # base layer: create new object to store figure 3a
-figure3a <- ggplot(data = aq_ins_clean,
+figure4 <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = med_temp,
                                  y = log_ave_lit,
                                  color = temp_range)) +
@@ -366,7 +405,7 @@ figure3a <- ggplot(data = aq_ins_clean,
   theme(legend.position = "right")+
   
   # labels
-  labs(title = "Figure 3a:
+  labs(title = "Figure 4:
 
 Average Abundance and Average Water Temperature for Three Dominant Taxa",
        x = "Average Temperature (ºC)",
@@ -387,22 +426,21 @@ color = "Temperature Range") +
   ), na.value = "grey50")
   
   
-figure3a
+figure4
 
 
 ```
 
-
-### Figure 3b
+### Figure 5 - How does abundance vary across sites for each taxon?
 
 ```{r}
-#| label: figure 3b
+#| label: fig5-exploratory-abundance-by-site
 #| fig-height: 6
 #| fig-width: 10
 
 
 # base layer: create new object to store figure 3b
-figure3b <- ggplot(data = aq_ins_clean,
+figure5 <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = site,
                                  y = log_ave_lit,
                                  color = site)) +
@@ -420,64 +458,26 @@ figure3b <- ggplot(data = aq_ins_clean,
   scale_color_manual(values = sites_cols) +
   
   # labels and title
-  labs(title = "Figure 3b:
+  labs(title = "Figure 5:
 
-Average Abundance and Average Water Temperature for Three Dominant Taxa by Site",
-       x = "Average Temperature (ºC)",
+Average Abundance by Site for Three Dominant Taxa",
+       x = "Site",
        y = "log + 1 Transformed Average Abundance/L",
        color = "Site") 
   
   
-figure3b
+figure5
 
 
 ```
-### Figure 4
+
+### Figure 6 - How is abundance distributed across the three dominant taxa?
 
 ```{r}
-#| label: season graph
-#| fig-height: 5 
-#| fig-width: 8
-
-# base layer: create new object to store figure 4
-figure4 <- ggplot(data = aq_ins_clean,
-                   mapping = aes(x = med_temp,
-                                 y = log_ave_lit,
-                                 color = taxon)) +
-  # first layer: points
-  geom_point() + 
-
-  # facet by season
-  facet_wrap(~season,
-             scales = "free") +
-  
-  # titles and labels
-  labs(title = "Figure 4:
-
-Average Abundance and Average Water Temperature by Season for Three Dominant Taxa",
-       x = "Average Temperature (ºC)",
-       y = "log + 1 Transformed Average Abundance/L",
-       color = "Taxon") +
-  
-  # manual colors
-  scale_color_manual(values = taxon_cols) +
-  
-  # legend
-  theme(legend.position = "right")
-
-
-figure4
-
-```
-
-
-## Other exploratory visualizations
-
-```{r}
-#| label: fig 5 exploratory-ridgeline-plot
+#| label: fig6-exploratory-ridgeline-plot
 
 # creating new object for ridgeline
-ridges <- ggplot(data = aq_ins_clean,
+figure6 <- ggplot(data = aq_ins_clean,
                  # x-axis: avg temp
                  # y-axis: avg abund
                  # fill geometries by site
@@ -493,18 +493,18 @@ ridges <- ggplot(data = aq_ins_clean,
                size = 0.75,
                linewidth = 1) +
   # filling geometries with color
-  scale_fill_manual(values = sites_cols) +
+  scale_fill_manual(values = taxon_cols) +
   # setting y-axis expansions
   scale_y_discrete(expand = expansion(mult = c(0.01, 0.15))) +
   # relabelling x- and y-axis
-labs(title = "Exploratory Figure 5:
+labs(title = "Figure 6:
 
 Ridge Figure Average Abundance for Three Dominant Taxa",
        y = "Taxon",
        x = "log + 1 Transformed Average Abundance/L") 
 
 # displaying object
-ridges
+figure6
 ```
 
 ## Ideas of Analysis for Background 
@@ -520,7 +520,11 @@ North Campus Open Space, it was noted that the highest species diversity was fou
 
 Important Questions and relationships that can be explored:
 
-Why is this data important; why are these species important? What do they indicate about the health of the area, and what is their role among the trophic levels? What is the relationship between aquatic invertebrates and temperature, and what does this mean about the health of the ecosystem? Does abundance vary across site or across season? Is there a relationship between salinity and temperature? The coding that explores these relationships is listed above during the creation of the visualizations.
+- What is the relationship between aquatic invertebrates and temperature? 
+- Does abundance vary across site? How does abundance vary across temperature ranges for each taxon? (exploratory)
+- How does abundance vary across sites for each taxon? (exploratory)
+- What is the strength of the relationship between water temperature and invertebrate abundance, and does this differ by season? 
+- How is abundance distributed across the three dominant taxa? (exploratory)
 
 Links to reports:
 
