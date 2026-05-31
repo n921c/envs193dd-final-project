@@ -17,8 +17,35 @@ format:
 execute: 
   warning: false
 ---
+## Ideas of Analysis for Background 
 
-## Set up
+**Background about NCOS / Project History:**
+
+- From 1966 to 2013, the space where NCOS sits was used as a 9-hole golf course. After a couple years of extensive planning, the NCOS restoration project began in February 2017, managed by the UCSB Cheadle Center. This space has created more than 40 acres of estuarine and palustrine wetlands and restored more than 60 acres of upland habitats. In comparison with COPR, the study has found that NCOS appears to have equivalent, if not slightly greater species richness and evenness.
+
+**Aquatic Invertebrate Sampling Background: **
+
+- Samples are collected by student interns and volunteers using a filtered bucket and dip net method, with the 3 most common invertebrates found with the filtered beaker 250 micron method being copepods, cladocera, ostracods and the 3 most common invertebrates found with the dipnet 500 micron method being copepods, ostracods, hemipteras. There is a strong negative linear relationship between aquatic invertebrate and salinity, as shown by a 2022 monitoring report of Devereux slough. Additionally found in this report, "from the data so far, the Slough and its associated ponds and vernal pools contain a fairly small set of invertebrate inhabitants. While we will need more time to determine what NCOS’s steady-state environment will be like, COPR’s portion of the Slough has some relatively extreme conditions with regard to Salinity, Temperature, and Dissolved Oxygen". Only four planktonic taxa appear in any great abundance: Copepod, Corixidae, Ostracod, and Cladocera. The benthic subsrate has a much higher concentration of these taxa, which is where the dip net testing is now most focusing on. In the 2024 Aquatic Invertebrate Assessment at the
+North Campus Open Space, it was noted that the highest species diversity was found at the Phelp's creek site compared to a couple other NCOS sites. There are other reports worth exploring that compare the linkage between aquatic invertebrate and other animals, such as waterbirds. 
+
+## Potential Analysis Questions/Relationships To be Explored:
+
+- What is the relationship between aquatic invertebrates and temperature? 
+- Does abundance vary across site? How does abundance vary across temperature ranges for each taxon? (exploratory)
+- How does abundance vary across sites for each taxon? (exploratory)
+- What is the strength of the relationship between water temperature and invertebrate abundance, and does this differ by season? 
+- How is abundance distributed across the three dominant taxa? (exploratory)
+
+**Links to reports:**
+
+- https://escholarship.org/uc/item/16p046mb#main
+- https://escholarship.org/uc/item/59c872mm
+- https://escholarship.org/uc/item/64f0w6hx
+- https://escholarship.org/uc/item/6n78q34g
+- https://escholarship.org/uc/item/1bc3t7fb
+
+
+## Visualizations and Data Set Up
 
 ### Packages
 
@@ -71,9 +98,8 @@ water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx")
 
 ## Cleaning and Wrangling 
 
-### Cleaning
 
-#### `sites` object
+### `sites` object
 
 ```{r}
 #| label: ncos-site-object
@@ -85,7 +111,7 @@ ncos_sites <- sites |>
   filter(sector == "NCOS" & sampling_frequency == "Quarterly")
 ```
 
-#### `taxon_list` object
+### `taxon_list` object
 
 ```{r}
 #| label: cleaning-taxon-list
@@ -99,7 +125,7 @@ taxon_list_clean <- taxon_list |>
   select(verbatim_name, scientificName)
 ```
 
-#### `water_quality` object
+### `water_quality` object
 
 ```{r}
 #| label: water-quality-cleaning
@@ -135,7 +161,7 @@ water_quality_clean <- water_quality |>
 
 ```
 
-#### `aq_ins` object
+### `aq_ins` object
 
 ```{r}
 #| label: cleaning-aq-ins
@@ -242,7 +268,7 @@ theme_set(
 
 ## Visualizations directly relevant to answering questions
 
-### Figure 1
+### Figure 1: What is the relationship between aquatic invertebrates and temperature across sites?
 
 ```{r}
 #| label: scatterplot
@@ -260,7 +286,8 @@ figure1 <- ggplot(data = aq_ins_clean,
   geom_point() + 
   
   # facet by site
-  facet_wrap(~site_full) +
+  facet_wrap(~site_full,
+             axes ="all") +
   
   # labels 
   labs(title = "Figure 1:
@@ -282,7 +309,7 @@ figure1
 
 ```
 
-### Figure 2
+### Figure 2 - What is the average abundance distribution of the three dominant taxa?
 
 ```{r}
 #| label: strip-chart
@@ -346,7 +373,7 @@ figure3 <- ggplot(data = aq_ins_clean,
 
   # facet by season
   facet_wrap(~season,
-             scales = "free") +
+             axes = "all") +
   
   # titles and labels
   labs(title = "Figure 3:
@@ -373,8 +400,8 @@ figure3
 
 ```{r}
 #| label: fig4-abundance-by-temperature-ranges
-#| fig-height: 5 
-#| fig-width: 8
+#| fig-height: 6
+#| fig-width: 10
 
 aq_ins_clean <- aq_ins_clean |>
   mutate(temp_range = cut(med_temp,
@@ -436,7 +463,7 @@ figure4
 ```{r}
 #| label: fig5-exploratory-abundance-by-site
 #| fig-height: 6
-#| fig-width: 10
+#| fig-width: 12
 
 
 # base layer: create new object to store figure 3b
@@ -475,6 +502,8 @@ figure5
 
 ```{r}
 #| label: fig6-exploratory-ridgeline-plot
+#| fig-height: 5
+#| fig-width: 8
 
 # creating new object for ridgeline
 figure6 <- ggplot(data = aq_ins_clean,
@@ -507,35 +536,8 @@ Ridge Figure Average Abundance for Three Dominant Taxa",
 figure6
 ```
 
-## Ideas of Analysis for Background 
 
-Background about NCOS and project history:
-
-From 1966 to 2013, the space where NCOS sits was used as a 9-hole golf course. After a couple years of extensive planning, the NCOS restoration project began in February 2017, managed by the UCSB Cheadle Center. This space has created more than 40 acres of estuarine and palustrine wetlands and restored more than 60 acres of upland habitats. In comparison with COPR, the study has found that NCOS appears to have equivalent, if not slightly greater species richness and evenness.
-
-Specifics about aquatic invertebrate: 
-
-Samples are collected by student interns and volunteers using a filtered bucket and dip net method, with the 3 most common invertebrates found with the filtered beaker 250 micron method being copepods, cladocera, ostracods and the 3 most common invertebrates found with the dipnet 500 micron method being copepods, ostracods, hemipteras. There is a strong negative linear relationship between aquatic invertebrate and salinity, as shown by a 2022 monitoring report of Devereux slough. Additionally found in this report, "from the data so far, the Slough and its associated ponds and vernal pools contain a fairly small set of invertebrate inhabitants. While we will need more time to determine what NCOS’s steady-state environment will be like, COPR’s portion of the Slough has some relatively extreme conditions with regard to Salinity, Temperature, and Dissolved Oxygen". Only four planktonic taxa appear in any great abundance: Copepod, Corixidae, Ostracod, and Cladocera. The benthic subsrate has a much higher concentration of these taxa, which is where the dip net testing is now most focusing on. In the 2024 Aquatic Invertebrate Assessment at the
-North Campus Open Space, it was noted that the highest species diversity was found at the Phelp's creek site compared to a couple other NCOS sites. There are other reports worth exploring that compare the linkage between aquatic invertebrate and other animals, such as waterbirds. 
-
-Important Questions and relationships that can be explored:
-
-- What is the relationship between aquatic invertebrates and temperature? 
-- Does abundance vary across site? How does abundance vary across temperature ranges for each taxon? (exploratory)
-- How does abundance vary across sites for each taxon? (exploratory)
-- What is the strength of the relationship between water temperature and invertebrate abundance, and does this differ by season? 
-- How is abundance distributed across the three dominant taxa? (exploratory)
-
-Links to reports:
-
-- https://escholarship.org/uc/item/16p046mb#main
-- https://escholarship.org/uc/item/59c872mm
-- https://escholarship.org/uc/item/64f0w6hx
-- https://escholarship.org/uc/item/6n78q34g
-- https://escholarship.org/uc/item/1bc3t7fb
-
-
-## Plan for elective
+## Timeline and Plan for elective
 
 **Timeline**
 
@@ -569,7 +571,7 @@ Finals week:
 
 ________________________________________________________________________________________
 
-**Visualization Approach and Temperature Color Scale**
+**Advanced Elective Visualization Approach and Temperature Color Scale**
 
 
 For our final visualization, we decided on a physical drawing. Each organism will be represented by an outline, filled with paint and pastels to illustrate the relationship between abundance and temperature. The colors inside each outline correspond to a temperature-based heat range, divided into five equal intervals spanning the full range of recorded temperatures (10.20°C – 37.30°C):
