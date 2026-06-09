@@ -1,6 +1,7 @@
 ---
 title: "Final Paper"
 author: "Linda Herrera, Natalie Chen, June McNally"
+bibliography: references.bib
 format: 
   pdf:
     include-in-header: 
@@ -22,17 +23,18 @@ execute:
 
 ## Introduction
 
-<!-- (JUNE)
+*(JUNE)*
 - Establish context for study:
     - Relevance to NCOS
     - Relevance to other ecosystems
 - Synthesize main findings from other papers (connect ideas, don't just list)
 - Articulate main question(s) for the study
--->
+
 
 ## Methods
 
-<!-- (JUNE)
+
+*(JUNE)*
 - Describe temporal and spatial coverage of dataset
 - Reference monitoring report or NCOS-related publications on data collection
 - Describe frequency of data collection
@@ -41,30 +43,38 @@ execute:
 
 ## Results
 
-<!-- (NATALIE)
+
+*(NATALIE)*
 - Discuss findings clearly (patterns, trends, etc.)
 - Connect results to your research questions and figures
 - Present figures in an order that tells a clear ecological story
--->
+
 
 ## Discussion
 
-<!-- (LINDA)
-- Connect results to NCOS reports or publications
-- Connect results to other ecosystems
-- Address challenges in data collection:
-    - What would be difficult about collecting this data
-    - What other variables influence the patterns you see, how they're collected, and why they're relevant
-    - Temporal changes that may influence patterns, and how (or whether) your dataset captures them
--->
+### Connecting Results to NCOS Reports/Publications
+
+The results align with findings from Stiles & Kracha (2023), whose poster on a restored California wetland documented shifts in invertebrate assemblages as the restored system matured over three years. Similarly, the data collected from NCOS and COPR — both active restoration sites — likely reflect ecosystems still establishing ecological equilibrium. The winter abundance spike observed in this study is consistent with Stiles & Kracha's finding that seasonal variation drives community composition changes, particularly as rainfall events reduce salinity stress on invertebrate populations. @stiles2023
+
+### Connecting Results to Other Ecosystems
+
+The temperature-abundance relationship observed at NCOS finds support in studies conducted across comparable wetland systems. Marchetti found that invertebrate abundance, richness, and diversity increased with wetland age across restored Sacramento Valley wetlands, with Ostracoda— one of the taxa monitored in this study comprising over 20% of all samples (@marchetti2010 ). Given that NCOS represents a relatively young restoration site, the abundance patterns documented here likely reflects an early stage of that same succession trajectory. Another study similarly demonstrated that invertebrate communities recolonized successfully following hydrological restoration in a New Zealand wetland with minimal intervention, suggesting that restored wetlands across different geographic contexts follow comparable recovery dynamics (@suren2011). Taken together, these studies indicate that the patterns observed at NCOS and COPR are not site-specific anomalies, but reflect broader ecological responses to restoration conditions across wetland ecosystems.
+
+### Challenges in Data Collection
+
+Obtaining clean water samples was complicated by particulate matter such as mud, sticks, and organic debris — that had to be filtered out, potentially reducing sample volume or introducing inconsistency across sites. Some sampling locations, such as areas beneath bridges or in muddy, hard-to-access margins, introduced physical access challenges that may have limited sampling frequency or consistency across seasons.
+
+### Other Variables That Would Influence Observed Patterns
+
+Salinity is the most directly relevant confounding variable. As the Stiles & Kracha poster noted, winter rainfall reduces salinity, which independently boosts invertebrate abundance— meaning some of what appears to be a temperature effect may partly be a salinity effect. Salinity is typically measured with a conductivity meter or refractometer at the time of water collection.
+
+Dissolved oxygen (DO) is another key variable, as warmer water holds less oxygen, which could suppress invertebrate abundance at high temperatures independently of thermal stress. DO is measured with a probe at the time of sampling.
+
+Vegetation cover and shading influence water temperature locally — shaded sites may read cooler not because of season but because of canopy.
+
+### Temporal Changes and Dataset Limitations
+
+Seasonal sampling captures broad temporal patterns but misses finer-scale variation. A single sample per season represents a snapshot — if sampling happened to fall on an unseasonably warm or cold day, that reading may not reflect the actual seasonal average experienced by invertebrate populations over weeks. Invertebrate community composition also responds to conditions accumulated over time (e.g., a prolonged cold spell), not just conditions at the moment of sampling. Multi-year data would be needed to distinguish whether patterns reflect restoration progress versus stable seasonal cycles. Without continuous temperature loggers deployed at sampling sites, it's difficult to know whether the recorded temperature is representative of conditions during the period between sampling events.
 
 ## References
-
-<!-- (EVERYONE)
-- Use in-text citations consistently
-- Reference section auto-generated from .bib file
-- Ensure references are relevant to the claims being made
--->
-
-
 
