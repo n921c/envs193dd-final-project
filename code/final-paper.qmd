@@ -22,7 +22,7 @@ execute:
 
 ## Introduction
 
-<!-- 
+<!-- (JUNE)
 - Establish context for study:
     - Relevance to NCOS
     - Relevance to other ecosystems
@@ -32,7 +32,7 @@ execute:
 
 ## Methods
 
-<!--
+<!-- (JUNE)
 - Describe temporal and spatial coverage of dataset
 - Reference monitoring report or NCOS-related publications on data collection
 - Describe frequency of data collection
@@ -41,7 +41,7 @@ execute:
 
 ## Results
 
-<!--
+<!-- (NATALIE)
 - Discuss findings clearly (patterns, trends, etc.)
 - Connect results to your research questions and figures
 - Present figures in an order that tells a clear ecological story
@@ -49,7 +49,7 @@ execute:
 
 ## Discussion
 
-<!--
+<!-- (LINDA)
 - Connect results to NCOS reports or publications
 - Connect results to other ecosystems
 - Address challenges in data collection:
@@ -60,7 +60,7 @@ execute:
 
 ## References
 
-<!--
+<!-- (EVERYONE)
 - Use in-text citations consistently
 - Reference section auto-generated from .bib file
 - Ensure references are relevant to the claims being made
