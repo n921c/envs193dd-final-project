@@ -1,0 +1,70 @@
+---
+title: "Final Paper"
+author: "Linda Herrera, Natalie Chen, June McNally"
+format: 
+  pdf:
+    include-in-header: 
+      text: |
+        \usepackage{fvextra}
+        \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,commandchars=\\\{\}}
+        \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
+        \usepackage{xcolor}
+        \definecolor{coldblue}{RGB}{31, 73, 163}
+        \definecolor{lightblue}{RGB}{166, 185, 226}
+        \definecolor{lightyellow}{RGB}{255, 230, 150}
+        \definecolor{softorange}{RGB}{240, 160, 90}
+        \definecolor{hotred}{RGB}{196, 30, 38}
+execute: 
+  warning: false
+  echo: false
+  message: false
+---
+
+## Introduction
+
+<!-- 
+- Establish context for study:
+    - Relevance to NCOS
+    - Relevance to other ecosystems
+- Synthesize main findings from other papers (connect ideas, don't just list)
+- Articulate main question(s) for the study
+-->
+
+## Methods
+
+<!--
+- Describe temporal and spatial coverage of dataset
+- Reference monitoring report or NCOS-related publications on data collection
+- Describe frequency of data collection
+- Describe statistical analysis or descriptive statistics (linked to your question)
+-->
+
+## Results
+
+<!--
+- Discuss findings clearly (patterns, trends, etc.)
+- Connect results to your research questions and figures
+- Present figures in an order that tells a clear ecological story
+-->
+
+## Discussion
+
+<!--
+- Connect results to NCOS reports or publications
+- Connect results to other ecosystems
+- Address challenges in data collection:
+    - What would be difficult about collecting this data
+    - What other variables influence the patterns you see, how they're collected, and why they're relevant
+    - Temporal changes that may influence patterns, and how (or whether) your dataset captures them
+-->
+
+## References
+
+<!--
+- Use in-text citations consistently
+- Reference section auto-generated from .bib file
+- Ensure references are relevant to the claims being made
+-->
+
+
+
