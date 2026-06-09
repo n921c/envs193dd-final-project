@@ -4,7 +4,7 @@
 
 This repository contains data and code to explore patterns in aquatic invertebrate abundance at North Campus Open Space.
 
-The question our group is exploring is: what is the strength of the relationship between water temperature and invertebrate abundance?
+The question our group is exploring is: What is the strength of the relationship between water temperature and invertebrate abundance?
 
 To work with the code in this repository, you will need the following packages:
 

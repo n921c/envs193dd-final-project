@@ -16,11 +16,55 @@ format:
          \definecolor{hotred}{RGB}{196, 30, 38}
 execute: 
   warning: false
+bibliography: references.bib
 ---
 
-## Set up
+# Ideas of Analysis
 
-### Packages
+-   **Main question: What is the relationship between the abundance of aquatic invertebrates and water temperature in NCOS?**
+
+-   
+
+    1.  What is the spread of the average abundance of the top three dominant taxa?
+
+-   
+
+    2.  How does the average abundance of the top three dominant taxa vary across water temperature ranges?
+
+-   
+
+    3.  Does the average abundance of the top most dominant taxa vary across seasons? -\> Do the top three dominant taxa have different ideal temperatures that affect abundance, or do they all thrive at the same temperature?
+
+***Exploratory***
+
+-   
+
+    4.  What is another way we can visualize the distribution of abundance of the three dominant taxa?
+
+-   
+
+    5.  How does average abundance of top three taxa vary across sites?
+
+-   
+
+    6.  How does average abundance vary across NCOS site for each taxon?
+
+The coding that explores these relationships is listed below during the creation of the visualizations.
+
+# Background
+
+-   From 1966 to 2013, the space where NCOS sits was used as a 9-hole golf course. After a couple years of extensive planning, the NCOS restoration project began in February 2017, managed by the UCSB Cheadle Center. This space has created more than 40 acres of estuarine and palustrine wetlands and restored more than 60 acres of upland habitats. In comparison with COPR, the study has found that NCOS appears to have equivalent, if not slightly greater species richness and evenness.
+
+-   The study of comparing the aquatic macroinvertebrate species diversity and abundance of the newly restored wetlands at NCOS began in the spring of 2018. The goal of the study was to collect samples of taxa and water quality at all 12 Deverux Slough sites using pH and YSI meters, as well as 250 μm filtered beakers (FB250) and eDNA (Environmental DNA). More specifically, the invertebrate samples are collected by student interns and volunteers using a filtered bucket and dip net method, with the 3 most common invertebrates found with the filtered beaker 250 micron method being copepods, cladocera, ostracods. At the CCBER Roost Lab, the FB250 samples were inspected under a microscope and sorted by invertebrate taxa by interns. The E-DNA samples are lastly sent to an external lab to be further inspected. Our research question is relevant to NCOS because aquatic invertebrates are ecological bioindicators that are often used to measure water quality. According to NCOS researchers Grinstead, Huitema, Norman, et al., “this study aims to reveal the comparative difference in macroinvertebrate species diversity and abundance over time as conservation continues to increase through the NCOS wetlands, particularly using it as a model to prompt conservation efforts in other locations. The results of this exp
+\eriment serve as a foundation for future discovery of how water quality can be a great indicator of the state of a wetland.” [@devereux2022]
+
+-   Our research question reaches outside of NCOS, building on how aquatic invertebrates are not just indicators at NCOS, but all wetlands. According to Ecological Indicators, due to their short life spans and vulnerability to ecological stressors, aquatic invertebrates are widely used to measure the health of wetlands and aquatic ecosystems. Each are meaningful in their own ways as processors of organic material and prey for larger species [@dehingia2026]. They all sit at the bottom of the food chain and bridge the gap between primary producers and larger predators like fish and waterbirds by being an easy food source for larger predators [@kwok2015]. Copepods are especially important in transferring energy to higher trophic levels, cladocera are primarily filter feeders, and ostracods serve as strong bioindicators of environmental conditions [@dehingia2026].
+
+-    Temperature is one strong abiotic driver of the physical processes in aquatic ecosystems and wetlands, which can be assessed using the abundance of aquatic invertebrates. Each species requires a specific temperature range for optimal performance; when approaching their thermal limits, organisms show signs of stress, resulting in changes in behaviour resulting in migration or death [@bonacina2022]. Each of the taxa have specific ideal temperature ranges and generally disappear at more extreme temperatures, with all ideal temperatures being around a range of 18-30℃ ([@li2009],[@bonacina2022]).  When the invertebrates function at their ideal temperature, it leads to an overall healthier aquatic ecosystem.
+
+# Visualizations
+
+## Packages
 
 ```{r}
 #| label: packages
@@ -45,7 +89,7 @@ library(ggridges)
 
 ```
 
-### Data
+## Data
 
 ```{r}
 #| label: data
@@ -69,11 +113,9 @@ water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx")
                            na = c("", "n/a", "N/A", "over", "173+")) 
 ```
 
-## Cleaning and Wrangling 
+## Cleaning and Wrangling
 
-### Cleaning
-
-#### `sites` object
+### `sites` object
 
 ```{r}
 #| label: ncos-site-object
@@ -85,7 +127,7 @@ ncos_sites <- sites |>
   filter(sector == "NCOS" & sampling_frequency == "Quarterly")
 ```
 
-#### `taxon_list` object
+### `taxon_list` object
 
 ```{r}
 #| label: cleaning-taxon-list
@@ -99,7 +141,7 @@ taxon_list_clean <- taxon_list |>
   select(verbatim_name, scientificName)
 ```
 
-#### `water_quality` object
+### `water_quality` object
 
 ```{r}
 #| label: water-quality-cleaning
@@ -135,7 +177,7 @@ water_quality_clean <- water_quality |>
 
 ```
 
-#### `aq_ins` object
+### `aq_ins` object
 
 ```{r}
 #| label: cleaning-aq-ins
@@ -242,49 +284,9 @@ theme_set(
 
 ```
 
-## Visualizations directly relevant to answering questions
+# Main Visualizations
 
-### Figure 1
-
-```{r}
-#| label: scatterplot
-#| message: false
-#| warning: false
-#| fig-height: 6
-#| fig-width: 8
-
-# base layer: create new object to store figure 1
-figure1 <- ggplot(data = aq_ins_clean,
-                  mapping = aes(x = med_temp,
-                                y = log_ave_lit,
-                                color = taxon)) +
-  # first layer: points
-  geom_point() + 
-  
-  # facet by site
-  facet_wrap(~site_full) +
-  
-  # labels 
-  labs(title = "Figure 1:
-
-Dominant Three Taxa Abundance and Average Water Temperature by Site",
-       x = "Average Temperature (ºC)",
-       y = "log + 1 Transformed Average Abundance/L",
-       color = "Taxon") +
-
-  # manual colors
-  scale_color_manual(values = taxon_cols) +
-  
-  # adding legend
-  theme(legend.position = "right")
-  
-  
-
-figure1
-
-```
-
-### Figure 2
+## Figure 1 - What is the average abundance distribution of the three dominant taxa?
 
 ```{r}
 #| label: strip-chart
@@ -293,8 +295,8 @@ figure1
 #| fig-height: 5 
 #| fig-width: 8
 
-# base layer: create new object to store figure 2
-figure2 <- ggplot(data = aq_ins_clean,
+# base layer: create new object to store figure 1
+figure1 <- ggplot(data = aq_ins_clean,
                  aes(x = taxon,
                      y = log_ave_lit,
                      color = taxon)) +
@@ -323,15 +325,79 @@ figure2 <- ggplot(data = aq_ins_clean,
   # titles
   labs(x = "Taxon",
        y = "log + 1 transformed average abundance/L",
-       title = "Figure 2:
+       title = "Figure 1:
 
 Mean and Distribution of Average Abundance for Three Dominant Taxa")
 
-figure2
+figure1
 
 ```
 
-### Figure 3 - What is the strength of the relationship between water temperature and invertebrate abundance, and does this differ by season?
+## Figure 2 - How does abundance vary across temperature ranges for each taxon?
+
+```{r}
+#| label: fig2-abundance-by-temperature-ranges
+#| fig-height: 6
+#| fig-width: 10
+
+# revised timeline: mutating aq ins clean to account for ranges, copied from Claude 
+aq_ins_clean <- aq_ins_clean |>
+  mutate(temp_range = cut(med_temp,
+                          breaks = c(10.0, 15.6, 21.2, 26.8, 32.4, 38.0),
+                          labels = c("10.0-15.6C", "15.6-21.2C", "21.2-26.8C", 
+                                     "26.8-32.4C", "32.4-38.0C"),
+                          include.lowest = TRUE),
+         point_color = if_else(log_ave_lit == 0, "Zero Abundance", as.character(temp_range)),
+         point_color = factor(point_color, levels = c("10.0-15.6C", "15.6-21.2C", 
+                                                       "21.2-26.8C", "26.8-32.4C", 
+                                                       "32.4-38.0C", "Zero Abundance")))
+
+
+# base layer: create new object to store figure 2
+figure2 <- ggplot(data = aq_ins_clean,
+                   mapping = aes(x = med_temp,
+                                 y = log_ave_lit,
+                                 color = temp_range)) +
+  # first layer: points
+  geom_point() + 
+
+  # facet by taxon
+  facet_wrap(~taxon,
+             scales = "free") +
+  
+  # add legend
+  theme(legend.position = "right")+
+  
+  # labels
+  labs(title = "Figure 2:
+
+Average Abundance and Average Water Temperature for Three Dominant Taxa",
+       x = "Average Temperature (ºC)",
+       y = "log + 1 Transformed Average Abundance/L",
+color = "Temperature Range") +
+  
+  # setting ranges 
+  scale_x_continuous(
+    breaks = c(10.0, 15.6, 21.2, 26.8, 32.4, 38.0),
+    limits = c(10.0, 38.0)) +
+
+  # manually setting colors
+  scale_color_manual(values = c(
+    "10.0-15.6C" = "steelblue",
+    "15.6-21.2C" = "skyblue",
+    "21.2-26.8C" = "gold",
+    "26.8-32.4C" = "orange",
+    "32.4-38.0C" = "tomato3",
+    "Zero Abundance" = "black"
+  ), na.value = "grey50")
+  
+  
+figure2
+
+
+```
+
+## Figure 3 - What is the strength of the relationship between average water temperature and average invertebrate abundance across by season?
 
 ```{r}
 #| label: fig3-exploratory-season-graph
@@ -348,7 +414,7 @@ figure3 <- ggplot(data = aq_ins_clean,
 
   # facet by season
   facet_wrap(~season,
-             scales = "free") +
+             axes = "all") +
   
   # titles and labels
   labs(title = "Figure 3:
@@ -369,79 +435,55 @@ figure3
 
 ```
 
-## Other exploratory visualizations
+# Other exploratory visualizations
 
-### Figure 4 - How does abundance vary across temperature ranges for each taxon?
+## Figure 4 - How is abundance distributed across the three dominant taxa?
 
 ```{r}
-#| label: fig4-abundance-by-temperature-ranges
-#| fig-height: 5 
+#| label: fig4-exploratory-ridgeline-plot
+#| fig-height: 5
 #| fig-width: 8
 
-aq_ins_clean <- aq_ins_clean |>
-  mutate(temp_range = cut(med_temp,
-                          breaks = c(10.0, 15.6, 21.2, 26.8, 32.4, 38.0),
-                          labels = c("10.0-15.6C", "15.6-21.2C", "21.2-26.8C", 
-                                     "26.8-32.4C", "32.4-38.0C"),
-                          include.lowest = TRUE),
-         point_color = if_else(log_ave_lit == 0, "Zero Abundance", as.character(temp_range)),
-         point_color = factor(point_color, levels = c("10.0-15.6C", "15.6-21.2C", 
-                                                       "21.2-26.8C", "26.8-32.4C", 
-                                                       "32.4-38.0C", "Zero Abundance")))
-
-
-
-# base layer: create new object to store figure 3a
+# creating new object for ridgeline
 figure4 <- ggplot(data = aq_ins_clean,
-                   mapping = aes(x = med_temp,
-                                 y = log_ave_lit,
-                                 color = temp_range)) +
-  # first layer: points
-  geom_point() + 
+                 # x-axis: avg temp
+                 # y-axis: avg abund
+                 # fill geometries by site
+                 mapping = aes(x = log_ave_lit,
+                               y = taxon,
+                               fill = taxon)) +
+  # ridges (scale makes ridges shorter so that they don't overlap)
+  geom_density_ridges(scale = 0.8) +
+  
+  # adding means and 95% confidence intervals
+  stat_summary(geom = "pointrange",
+               fun.data = mean_cl_normal,
+               size = 0.75,
+               linewidth = 1) +
+  # filling geometries with color
+  scale_fill_manual(values = taxon_cols) +
+  # setting y-axis expansions
+  scale_y_discrete(expand = expansion(mult = c(0.01, 0.15))) +
+  # relabelling x- and y-axis
+labs(title = "Figure 4:
 
-  # facet by taxon
-  facet_wrap(~taxon,
-             scales = "free") +
-  
-  # add legend
-  theme(legend.position = "right")+
-  
-  # labels
-  labs(title = "Figure 4:
+Ridge Figure Average Abundance for Three Dominant Taxa",
+       y = "Taxon",
+       x = "log + 1 Transformed Average Abundance/L") 
 
-Average Abundance and Average Water Temperature for Three Dominant Taxa",
-       x = "Average Temperature (ºC)",
-       y = "log + 1 Transformed Average Abundance/L",
-color = "Temperature Range") +
-  
-  scale_x_continuous(
-    breaks = c(10.0, 15.6, 21.2, 26.8, 32.4, 38.0),
-    limits = c(10.0, 38.0)) +
-  
-  scale_color_manual(values = c(
-    "10.0-15.6C" = "steelblue",
-    "15.6-21.2C" = "skyblue",
-    "21.2-26.8C" = "gold",
-    "26.8-32.4C" = "orange",
-    "32.4-38.0C" = "tomato3",
-    "Zero Abundance" = "black"
-  ), na.value = "grey50")
-  
-  
+# displaying object
 figure4
-
-
 ```
 
-### Figure 5 - How does abundance vary across sites for each taxon?
+## Figure 5 - How does abundance vary across sites for each taxon?
 
 ```{r}
 #| label: fig5-exploratory-abundance-by-site
 #| fig-height: 6
-#| fig-width: 10
+#| fig-width: 12
 
 
-# base layer: create new object to store figure 3b
+# base layer: create new object to store figure 5
 figure5 <- ggplot(data = aq_ins_clean,
                    mapping = aes(x = site,
                                  y = log_ave_lit,
@@ -473,122 +515,101 @@ figure5
 
 ```
 
-### Figure 6 - How is abundance distributed across the three dominant taxa?
+## Figure 6: What is the relationship between aquatic invertebrates and temperature across site?
 
 ```{r}
-#| label: fig6-exploratory-ridgeline-plot
+#| label: fig6-exploring-by-site
+#| message: false
+#| warning: false
+#| fig-height: 6
+#| fig-width: 8
 
-# creating new object for ridgeline
+# base layer: create new object to store figure 6
 figure6 <- ggplot(data = aq_ins_clean,
-                 # x-axis: avg temp
-                 # y-axis: avg abund
-                 # fill geometries by site
-                 mapping = aes(x = log_ave_lit,
-                               y = taxon,
-                               fill = taxon)) +
-  # ridges (scale makes ridges shorter so that they don't overlap)
-  geom_density_ridges(scale = 0.8) +
+                  mapping = aes(x = med_temp,
+                                y = log_ave_lit,
+                                color = taxon)) +
+  # first layer: points
+  geom_point() + 
   
-  # adding means and 95% confidence intervals
-  stat_summary(geom = "pointrange",
-               fun.data = mean_cl_normal,
-               size = 0.75,
-               linewidth = 1) +
-  # filling geometries with color
-  scale_fill_manual(values = taxon_cols) +
-  # setting y-axis expansions
-  scale_y_discrete(expand = expansion(mult = c(0.01, 0.15))) +
-  # relabelling x- and y-axis
-labs(title = "Figure 6:
+  # facet by site
+  facet_wrap(~site_full,
+             axes ="all") +
+  
+  # labels 
+  labs(title = "Figure 6:
 
-Ridge Figure Average Abundance for Three Dominant Taxa",
-       y = "Taxon",
-       x = "log + 1 Transformed Average Abundance/L") 
+Dominant Three Taxa Abundance and Average Water Temperature by Site",
+       x = "Average Temperature (ºC)",
+       y = "log + 1 Transformed Average Abundance/L",
+       color = "Taxon") +
 
-# displaying object
+  # manual colors
+  scale_color_manual(values = taxon_cols) +
+  
+  # adding legend
+  theme(legend.position = "right")
+  
+  
+
 figure6
+
 ```
 
-## Ideas of Analysis for Background 
-
-Background about NCOS and project history:
-
-From 1966 to 2013, the space where NCOS sits was used as a 9-hole golf course. After a couple years of extensive planning, the NCOS restoration project began in February 2017, managed by the UCSB Cheadle Center. This space has created more than 40 acres of estuarine and palustrine wetlands and restored more than 60 acres of upland habitats. In comparison with COPR, the study has found that NCOS appears to have equivalent, if not slightly greater species richness and evenness.
-
-Specifics about aquatic invertebrate: 
-
-Samples are collected by student interns and volunteers using a filtered bucket and dip net method, with the 3 most common invertebrates found with the filtered beaker 250 micron method being copepods, cladocera, ostracods and the 3 most common invertebrates found with the dipnet 500 micron method being copepods, ostracods, hemipteras. There is a strong negative linear relationship between aquatic invertebrate and salinity, as shown by a 2022 monitoring report of Devereux slough. Additionally found in this report, "from the data so far, the Slough and its associated ponds and vernal pools contain a fairly small set of invertebrate inhabitants. While we will need more time to determine what NCOS’s steady-state environment will be like, COPR’s portion of the Slough has some relatively extreme conditions with regard to Salinity, Temperature, and Dissolved Oxygen". Only four planktonic taxa appear in any great abundance: Copepod, Corixidae, Ostracod, and Cladocera. The benthic subsrate has a much higher concentration of these taxa, which is where the dip net testing is now most focusing on. In the 2024 Aquatic Invertebrate Assessment at the
-North Campus Open Space, it was noted that the highest species diversity was found at the Phelp's creek site compared to a couple other NCOS sites. There are other reports worth exploring that compare the linkage between aquatic invertebrate and other animals, such as waterbirds. 
-
-Important Questions and relationships that can be explored:
-
-- What is the relationship between aquatic invertebrates and temperature? 
-- Does abundance vary across site? How does abundance vary across temperature ranges for each taxon? (exploratory)
-- How does abundance vary across sites for each taxon? (exploratory)
-- What is the strength of the relationship between water temperature and invertebrate abundance, and does this differ by season? 
-- How is abundance distributed across the three dominant taxa? (exploratory)
-
-Links to reports:
-
-- https://escholarship.org/uc/item/16p046mb#main
-- https://escholarship.org/uc/item/59c872mm
-- https://escholarship.org/uc/item/64f0w6hx
-- https://escholarship.org/uc/item/6n78q34g
-- https://escholarship.org/uc/item/1bc3t7fb
-
-
-## Plan for elective
+## Timeline and Plan for elective
 
 **Timeline**
 
 Week 7:
 
-- Research all three organisms (copepod, ostracod, cladoceran)
-- Gather reference images 
-- Review your figures 
-- Take notes on what each figure shows about the species 
-- Brainstorm collage/drawing style and decide on materials (digital vs. physical).
+-   Research all three organisms (copepod, ostracod, cladoceran)
+-   Gather reference images
+-   Review your figures
+-   Take notes on what each figure shows about the species
+-   Brainstorm collage/drawing style and decide on materials (digital vs. physical).
 
-Week 8 (timeline check-in): 
+Week 8 (timeline check-in):
 
-- Have a rough sketch/draft of all three 2D collages– one per organism
-- Bring your notes on what the figures show about each species. This is our plan and draft milestone.
+-   Have a rough sketch/draft of all three 2D collages– one per organism
+-   Bring your notes on what the figures show about each species. This is our plan and draft milestone.
 
 Week 9:
 
-- Refine and finalize the artwork for 1–2 of the organisms
-- Fill in your species notes with complete observations from your figures.
+-   Refine and finalize the artwork for 1–2 of the organisms
+-   Fill in your species notes with complete observations from your figures.
 
-Week 10: 
+Week 10:
 
-- Complete the third organism's artwork and finish all species notes
-- Do a full review, make sure each collage clearly reflects what your figures show about that species.
+-   Complete the third organism's artwork and finish all species notes
+-   Do a full review, make sure each collage clearly reflects what your figures show about that species.
 
 Finals week:
 
-- Final polish, compile everything together
-- Present your completed 2D collage triptych with notes.
+-   Final polish, compile everything together
+-   Present your completed 2D collage triptych with notes.
 
-________________________________________________________________________________________
+------------------------------------------------------------------------
 
-**Visualization Approach and Temperature Color Scale**
-
+**Advanced Elective Visualization Approach and Temperature Color Scale**
 
 For our final visualization, we decided on a physical drawing. Each organism will be represented by an outline, filled with paint and pastels to illustrate the relationship between abundance and temperature. The colors inside each outline correspond to a temperature-based heat range, divided into five equal intervals spanning the full range of recorded temperatures (10.20°C – 37.30°C):
 
-- \textcolor{coldblue}{10.0°C – 15.6°C}
-- \textcolor{lightblue}{15.6°C – 21.2°C}
-- \textcolor{lightyellow}{21.2°C – 26.8°C}
-- \textcolor{softorange}{26.8°C – 32.4°C}
-- \textcolor{hotred}{32.4°C – 38.0°C}
+-   \textcolor{coldblue}{10.0°C – 15.6°C}
+-   \textcolor{lightblue}{15.6°C – 21.2°C}
+-   \textcolor{lightyellow}{21.2°C – 26.8°C}
+-   \textcolor{softorange}{26.8°C – 32.4°C}
+-   \textcolor{hotred}{32.4°C – 38.0°C}
 
 **Gathering Images and Research on Organisms**
 
-![](copepods-research.jpg){width=85%}
+![](copepods-research.jpg){width="85%"}
 
-![](ostracods-research.jpg){width=85%}
+![](ostracods-research.jpg){width="85%"}
 
-![](cladocera-research.jpg){width=85%}
+![](cladocera-research.jpg){width="85%"}
 
+# References
 
-
+::: {#refs}
+:::
+ 
