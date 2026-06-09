@@ -11,15 +11,222 @@ format:
         \DefineVerbatimEnvironment{OutputCode}{Verbatim}{breaklines,commandchars=\\\{\}}
         \usepackage{xcolor}
         \definecolor{coldblue}{RGB}{31, 73, 163}
-        \definecolor{lightblue}{RGB}{166, 185, 226}
-        \definecolor{lightyellow}{RGB}{255, 230, 150}
+        \definecolor{lightblue}{RGB}{150, 170, 226}
+        \definecolor{lightyellow}{RGB}{220, 185, 80}
         \definecolor{softorange}{RGB}{240, 160, 90}
         \definecolor{hotred}{RGB}{196, 30, 38}
 execute: 
   warning: false
   echo: false
   message: false
+
 ---
+
+```{r}
+#| label: packages
+#| message: false
+#| warning: false
+
+# general use and cleaning
+library(tidyverse)
+library(here)
+library(janitor)
+library(snakecase)
+
+# wrapping axis labels
+library(scales)
+
+# reading in .xlsx files
+library(readxl)
+
+# arranging plots
+library(patchwork)
+library(ggridges)
+
+```
+
+```{r}
+#| label: data
+#| message: false
+#| warning: false
+
+# taxonomic information
+taxon_list <- read_csv(here("data", "taxon_list.csv")) 
+
+# aquatic invertebrates
+aq_ins <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx"),
+                    sheet = "Aquatic Insects") 
+
+# site information
+sites <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx"),
+                   sheet = "sites")
+
+# water quality information
+water_quality <- read_xlsx(here("data", "Aquatic Sampling Data-2026-03-10.xlsx"),
+                           sheet = "Water Quality",
+                           na = c("", "n/a", "N/A", "over", "173+")) 
+```
+
+```{r}
+#| label: ncos-site-object
+#| message: false
+
+# creating new object from sites
+ncos_sites <- sites |> 
+  # filter to only include NCOS sites sampled four times a year
+  filter(sector == "NCOS" & sampling_frequency == "Quarterly")
+```
+
+
+```{r}
+#| label: cleaning-taxon-list
+#| message: false
+
+# creating new clean object from taxon_list
+taxon_list_clean <- taxon_list |> 
+  # converting taxon name to snake case (no spaces or capital letters,
+  # only underscores)
+  mutate(verbatim_name = to_any_case(verbatim_name, case = "snake")) |> 
+  select(verbatim_name, scientificName)
+```
+
+```{r}
+#| label: water-quality-cleaning
+#| message: false
+
+water_quality_clean <- water_quality |> 
+  
+  # cleaning column names
+  clean_names() |> 
+  
+   # filtering join: only include sites in ncos_sites
+  # keep all the rows on the left that match up with rows on the right
+  semi_join(ncos_sites, by = "site") |> 
+  
+  # combine date and site together and remove those indiv. columns
+  unite("date_site", date, site, remove = TRUE) |> 
+  
+  # combine date and site together and remove those indiv. columns
+  group_by(date_site) |> 
+  
+  # create new columns that show median of each variable at each date_site
+  # because there are multiple samples at the same site at different depths
+  summarize(med_ph    = median(p_h, na.rm = TRUE),
+            med_sal   = median(salinity_ppt, na.rm = TRUE),
+            med_do    = median(dissolved_oxygen_mg_l, na.rm = TRUE),
+            med_temp  = median(temperature_c, na.rm = TRUE)) |>
+  
+  # ungroup
+  ungroup() |> 
+  
+  # take out outlier
+  filter(date_site != "2022-08-12_NVBR")
+
+```
+
+```{r}
+#| label: cleaning-aq-ins
+#| message: false
+#| warning: false
+
+# creating new clean object from aquatic inverts
+aq_ins_clean <- aq_ins |> 
+  # clean column names
+  clean_names() |> 
+  # filtering join: only include sites occurring in ncos_sites
+  semi_join(ncos_sites, by = c("site")) |> 
+  # renaming columns
+  rename(date = date_on_vial) |> 
+  # select columns of interest
+  select(date, sample_type, site,
+         ostracod,
+         copepod,
+         cladocera) |> 
+  # filter to only include "filtered beaker" samples
+  filter(sample_type %in% c("FB 250", "FB250")) |> 
+  # convert the data frame to long format
+  pivot_longer(cols = ostracod:cladocera,
+               names_to = "taxon",
+               values_to = "abundance") |> 
+  # group by date, site, taxon
+  group_by(date, site, taxon) |> 
+  # calculate average abundance per liter (sum abundance divided by 7.5 liters)
+  summarize(ave_lit = sum(abundance, na.rm = TRUE)/7.5) |>
+  # remove zero abundance rows
+  filter(ave_lit > 0) |>
+  # ungroup data frame
+  ungroup() |> 
+  # create a new column called `date_site` to join with water quality
+  unite("date_site", date, site, remove = FALSE) |> 
+  # join with water quality
+  left_join(water_quality_clean, by = c("date_site")) |> 
+  # join with taxon list
+  left_join(taxon_list_clean, by = c("taxon" = "verbatim_name")) |> 
+  # add full names of sites
+  mutate(site_full = case_when(
+    site == "NVBR" ~ "North of Venoco Bridge",
+    site == "NEC" ~ "South of Venoco Bridge",
+    site == "NMC" ~ "Main Channel",
+    site == "NPB" ~ "South of Phelps Bridge",
+    site == "NPB1" ~ "North of Phelps Bridge",
+    site == "NPB2" ~ "Phelps Road",
+    site == "NWP" ~  "West Pond",
+    site == "NDC" ~ "Devereux Creek"
+  )) |> 
+  # setting factor levels for site
+  mutate(site_full = fct_reorder(site_full, med_sal, .fun = "median", .na_rm = TRUE),
+         site_full = fct_rev(site_full)) |> 
+  
+  # log+1 transform of average abundance per liter
+  mutate(log_ave_lit = log(ave_lit + 1)) |>                        # <-- Fig 1, 2, 3, 4
+  
+  # season derived from date
+  mutate(season = case_when(
+    month(date) %in% c(3, 4, 5)  ~ "Spring",
+    month(date) %in% c(6, 7, 8)  ~ "Summer",
+    month(date) %in% c(9, 10, 11) ~ "Fall",
+    month(date) %in% c(12, 1, 2) ~ "Winter"
+  ),
+  season = factor(season, levels = c("Spring", "Summer", "Fall", "Winter"))) |># <-- Fig 4
+  mutate(taxon = factor(taxon, levels = c("copepod", "ostracod", "cladocera")))
+
+# capitalizing invertebrate names
+aq_ins_clean$taxon <- str_to_sentence(aq_ins_clean$taxon)
+  
+
+```
+
+
+```{r}
+#| label: plot-aesthetics
+#| message: false
+#| warning: false
+
+# colors for taxa
+taxon_cols <- c(
+  "Ostracod" = "orange2",
+  "Copepod" = "tomato3",
+  "Cladocera" = "turquoise4")
+
+sites_cols <- c(
+  "NDC" = "hotpink3",
+  "NEC" = "cyan3",
+  "NMC" = "lightpink2",
+  "NPB" = "slateblue3",
+  "NPB1" = "steelblue3",
+  "NPB2" = "green3",
+  "NVBR" = "maroon3"
+  
+)
+
+# setting common theme elements
+theme_set(
+  theme_classic() +
+    theme(text = element_text(size = 12),
+          plot.title.position = "plot",
+          legend.position = "none"))
+
+```
 
 ## Introduction
 
@@ -42,13 +249,162 @@ execute:
 -->
 
 ## Results
-
-
 *(NATALIE)*
 - Discuss findings clearly (patterns, trends, etc.)
 - Connect results to your research questions and figures
 - Present figures in an order that tells a clear ecological story
 
+
+## Figure 1 - What is the average abundance distribution of the three dominant taxa?
+
+```{r}
+#| label: strip-chart
+#| message: false
+#| warning: false
+#| fig-height: 4
+#| fig-width: 8
+
+# base layer: create new object to store figure 1
+figure1 <- ggplot(data = aq_ins_clean,
+                 aes(x = taxon,
+                     y = log_ave_lit,
+                     color = taxon)) +
+  
+  # first layer: jitter plot
+  geom_jitter(height = 0,
+              alpha = 1,
+              width = 0.2,
+              shape = 21) +
+  
+  # second layer: points to represent medians
+  stat_summary(geom = "point",
+               fun = "mean",
+               size = 4,
+               color = "black",
+               shape = 18) + # 18 = filled diamond 
+  
+   stat_summary(geom = "errorbar",
+               fun.data = mean_se,
+               width = 0.1,
+               color = "black") +
+  
+  # colors 
+  scale_color_manual(values = taxon_cols) +
+  
+  # titles
+  labs(x = "Taxon",
+       y = "log + 1 transformed average abundance/L",
+       title = "Mean and Distribution of Average Abundance for Three Dominant Taxa")
+
+figure1
+
+```
+
+- First we analyzed the variance of average abundance/L across our three taxa in our scope. We found that Copepod was the most abundant at NCOS, followed by Ostracod, then slightly behind by Cladocera. Cladocera seemed to have the widest distribution of average abundance/L, whereas Copepod had the smallest and more consistent distribution across various sample points, and Ostracod had a moderate sized distribution. This figure supports our research question as it visualized specifically ***how*** abundant each taxa is and how spread out their data points were across all sites and temperatures.
+
+
+## Figure 2 - How does abundance vary across temperature ranges for each taxon?
+
+```{r}
+#| label: fig2-abundance-by-temperature-ranges
+#| fig-height: 5
+#| fig-width: 10
+
+# revised timeline: mutating aq ins clean to account for ranges, copied from Claude 
+aq_ins_clean <- aq_ins_clean |>
+  mutate(temp_range = cut(med_temp,
+                          breaks = c(10.0, 15.6, 21.2, 26.8, 32.4, 38.0),
+                          labels = c("10.0-15.6C", "15.6-21.2C", "21.2-26.8C", 
+                                     "26.8-32.4C", "32.4-38.0C"),
+                          include.lowest = TRUE),
+         point_color = if_else(log_ave_lit == 0, "Zero Abundance", as.character(temp_range)),
+         point_color = factor(point_color, levels = c("10.0-15.6C", "15.6-21.2C", 
+                                                       "21.2-26.8C", "26.8-32.4C", 
+                                                       "32.4-38.0C", "Zero Abundance")))
+
+
+# base layer: create new object to store figure 2
+figure2 <- ggplot(data = aq_ins_clean,
+                   mapping = aes(x = med_temp,
+                                 y = log_ave_lit,
+                                 color = temp_range)) +
+  # first layer: points
+  geom_point() + 
+
+  # facet by taxon
+  facet_wrap(~taxon,
+             scales = "free") +
+  
+  # add legend
+  theme(legend.position = "right")+
+  
+  # labels
+  labs(title = "Average Abundance and Average Water Temperature for Three Dominant Taxa",
+       x = "Average Temperature (ºC)",
+       y = "log + 1 Transformed Average Abundance/L",
+color = "Temperature Range") +
+  
+  # setting ranges 
+  scale_x_continuous(
+    breaks = c(10.0, 15.6, 21.2, 26.8, 32.4, 38.0),
+    limits = c(10.0, 38.0)) +
+
+  # manually setting colors
+  scale_color_manual(values = c(
+    "10.0-15.6C" = "steelblue",
+    "15.6-21.2C" = "skyblue",
+    "21.2-26.8C" = "gold",
+    "26.8-32.4C" = "orange",
+    "32.4-38.0C" = "tomato3",
+    "Zero Abundance" = "black"
+  ), na.value = "grey50")
+  
+  
+figure2
+
+
+```
+
+- After understanding specifically ***how*** abundant each taxa was across all sites, we created Figure 2 based on average abundance and average water temperature per sample. Average temperatures varied from 0-38ºC, thus we split up the whole temperature range equally into 5 color coded ranges: \textcolor{coldblue}{dark blue} (10.0-15.6ºC), \textcolor{lightblue}{light blue} (15.6-21.2ºC), \textcolor{lightyellow}{yellow} (21.2-26.8ºC), \textcolor{softorange}{orange} (26.8-32.4ºC), and \textcolor{hotred}{red} (32.4-38.0ºC). Cladocera was most abundant in a temperature range between 10.0-21.2ºC, Copepod had the widest abundance range of 10.0-26.8ºC, and Ostracod was most abundant between 15.6º-26.8ºC. This figure supports our research question as it explains in which specific range of temperature was there the most average abundance of taxon/L.
+
+
+## Figure 3 - What is the strength of the relationship between average water temperature and average invertebrate abundance across by season?
+
+```{r}
+#| label: fig3-exploratory-season-graph
+#| fig-height: 4 
+#| fig-width: 8
+
+# base layer: create new object to store figure 4
+figure3 <- ggplot(data = aq_ins_clean,
+                   mapping = aes(x = med_temp,
+                                 y = log_ave_lit,
+                                 color = taxon)) +
+  # first layer: points
+  geom_point() + 
+
+  # facet by season
+  facet_wrap(~season,
+             axes = "all") +
+  
+  # titles and labels
+  labs(title = "Average Abundance and Average Water Temperature by Season for Three Dominant Taxa",
+       x = "Average Temperature (ºC)",
+       y = "log + 1 Transformed Average Abundance/L",
+       color = "Taxon") +
+  
+  # manual colors
+  scale_color_manual(values = taxon_cols) +
+  
+  # legend
+  theme(legend.position = "right")
+
+
+figure3
+
+```
+
+- It was clear from Figure 2 that aquatic invertebrates tended to be more abundant from an average water temperature from 10.0-26.8ºC. Thus, we further explored ***when*** exactly in the year this water temperature tended to occur. Figure 3 shows average abundance/L by average water temperature (ºC) for each of the three taxa per season, between 2020-2024. Winter stood out to have the lowest average water temperatures between 10.0-20ºC, thus we concluded that average aquatic invertebrate abundance is most likely highest during the Winter at NCOS. This figure connects to our research question as it answers the correlation between water temperature, aquatic abundance during a specific time range.
 
 ## Discussion
 
