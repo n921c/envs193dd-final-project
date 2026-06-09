@@ -24,15 +24,21 @@ library(patchwork)
 .
 ├── README.md
 ├── code
-│   ├── figure-draft.pdf.                           # timeline check in
-│   ├── figure-draft.qmd
-│   ├── figure-draft.qmd
-│   ├── figure-draft.qmd
-│   ├── figure-draft.qmd
-│   └── figure-draft.qmd
+│   ├── figure-draft.pdf                             # timeline check in
+│   ├── figure-draft.qmd                            
+│   ├── final-paper.pdf                              # final paper 
+│   ├── final-paper.qmd                           
+│   ├── references.bib                               # stores references 
+│   └── advanced-elective-pictures                   # folder for pictures
+│        ├── cladocera-research-jpg                 
+│        ├── cladocera-rough-draft.JPEG             
+│        ├── copepod-rough-draft.jpeg               
+│        ├── copepods-researcg.jpg                 
+│        ├── ostracod-rought-draft.jpeg             
+│        └── ostracods-research.jpeg                
 ├── data
-│   ├── Aquatic Sampling Data-2026-03-10.xlsx       # invertebrate survey data
-│   └── taxon_list.csv                              # taxonomic information
+│   ├── Aquatic Sampling Data-2026-03-10.xlsx        # invertebrate survey data
+│   └── taxon_list.csv                               # taxonomic information
 └── envs193dd-final-project.Rproj
 ```
 
@@ -40,3 +46,6 @@ library(patchwork)
 
 The rendered timeline check in is 
 [here](https://github.com/n921c/envs193dd-final-project/blob/main/code/figure-drafts.pdf).
+
+The rendered final paper is 
+[here](https://github.com/n921c/envs193dd-final-project/blob/main/code/final-paper.pdf).
