@@ -164,7 +164,9 @@ aq_ins_clean <- aq_ins |>
   # group by date, site, taxon
   group_by(date, site, taxon) |> 
   # calculate average abundance per liter (sum abundance divided by 7.5 liters)
-  summarize(ave_lit = sum(abundance, na.rm = TRUE)/7.5) |> 
+  summarize(ave_lit = sum(abundance, na.rm = TRUE)/7.5) |>
+  # remove zero abundance rows
+  filter(ave_lit > 0) |>
   # ungroup data frame
   ungroup() |> 
   # create a new column called `date_site` to join with water quality
