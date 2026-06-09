@@ -25,6 +25,10 @@ library(patchwork)
 ├── README.md
 ├── code
 │   ├── figure-draft.pdf.                           # timeline check in
+│   ├── figure-draft.qmd
+│   ├── figure-draft.qmd
+│   ├── figure-draft.qmd
+│   ├── figure-draft.qmd
 │   └── figure-draft.qmd
 ├── data
 │   ├── Aquatic Sampling Data-2026-03-10.xlsx       # invertebrate survey data

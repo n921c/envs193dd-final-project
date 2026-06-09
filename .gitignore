@@ -3,3 +3,10 @@
 .RData
 .Ruserdata
 .positai
+*.tex
+*.aux
+*.log
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
