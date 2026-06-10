@@ -19,7 +19,6 @@ execute:
   warning: false
   echo: false
   message: false
-
 ---
 
 ```{r}
@@ -76,7 +75,6 @@ ncos_sites <- sites |>
   # filter to only include NCOS sites sampled four times a year
   filter(sector == "NCOS" & sampling_frequency == "Quarterly")
 ```
-
 
 ```{r}
 #| label: cleaning-taxon-list
@@ -196,7 +194,6 @@ aq_ins_clean$taxon <- str_to_sentence(aq_ins_clean$taxon)
 
 ```
 
-
 ```{r}
 #| label: plot-aesthetics
 #| message: false
@@ -230,25 +227,15 @@ theme_set(
 
 ## Introduction
 
-*(JUNE)*
-- Establish context for study:
-    - Relevance to NCOS
-    - Relevance to other ecosystems
-- Synthesize main findings from other papers (connect ideas, don't just list)
-- Articulate main question(s) for the study
-
+The North Campus Open Space (NCOS) in Goleta is a restored wetland managed by the UCSB Cheadle Center. From 1966 to 2013, the site operated as a 9-hole golf course. Restoration began in 2017, and aquatic invertebrate monitoring began shortly after that in 2018. Aquatic invertebrates are small, spineless creatures that play a critical role in wetland food webs, as they are a primary link between producers and higher consumers such as waterbirds and fish. Their sensitivity to environmental stressors also makes them valuable indicator species for assessing restoration progress both at NCOS and globally. In restored wetlands ranging from New Zealand [@suren2011] to the southeastern United States [@batzer2015] to Northeastern China [@lu2020], invertebrate assemblages have consistently tracked the trajectory of ecological recovery, with community composition and richness responding measurably to improvements in habitat conditions. Studies of zooplankton in restored Wisconsin wetlands similarly found that taxon richness correlated strongly with time since restoration, taking approximately six to seven years to resemble the least impacted reference sites [@dodson2001]. This is important to understanding the significance of invertebrates at NCOS; they directly show the progress of the restoration methods just as they have been around the world. Temperature is one strong abiotic driver of the physical processes in aquatic ecosystems and wetlands, which can be assessed using the abundance of aquatic invertebrates. Each species requires a specific temperature range for optimal performance; when approaching their thermal limits, organisms show signs of stress, resulting in changes in behavior resulting in migration or death [@bonacina2022]. Each of the taxa have specific ideal temperature ranges and generally disappear at more extreme temperatures, with all ideal temperatures being around a range of 18-30℃ [@li2009]. When the invertebrates function at their ideal temperature, it leads to an overall healthier aquatic ecosystem. These relationships led to the main question of our study: what is the relationship between the abundance of aquatic invertebrates and water temperature in NCOS?
 
 ## Methods
 
- The goal of the study was to collect samples of taxa and water quality at all 12 Deverux Slough sites using pH and YSI meters, as well as 250 μm filtered beakers (FB250) and eDNA (Environmental DNA). More specifically, the invertebrate samples are collected by student interns and volunteers using a filtered bucket and dip net method, with the 3 most common invertebrates found with the filtered beaker 250 micron method being copepods, cladocera, ostracods. At the CCBER Roost Lab, the FB250 samples were inspected under a microscope and sorted by invertebrate taxa by interns. Samples are collected at 6 sites each academic quarter (4 times per year). The E-DNA samples are lastly sent to an external lab to be further inspected. According to NCOS researchers Grinstead, Huitema, Norman, et al., “this study aims to reveal the comparative difference in macroinvertebrate species diversity and abundance over time as conservation continues to increase through the NCOS wetlands, particularly using it as a model to prompt conservation efforts in other locations. The results of this experiment serve as a foundation for future discovery of how water quality can be a great indicator of the state of a wetland.” Understanding how temperature shapes invertebrate abundance at NCOS is a natural extension of this goal; temperature is a direct force acting on aquatic ecosystems, and the invertebrates that respond to it are the same organisms researchers rely on to read the health of the wetland.  To examine the relationship between water temperature and invertebrate abundance, temperature was divided into five equal ranges spanning the observed extent of the dataset (10.0–38.0°C), and the distribution of log-transformed abundance within each range was visualized for each taxon.
-
+The goal of the study was to collect samples of taxa and water quality at all 12 Deverux Slough sites using pH and YSI meters, as well as 250 μm filtered beakers (FB250) and eDNA (Environmental DNA). More specifically, the invertebrate samples are collected by student interns and volunteers using a filtered bucket and dip net method, with the 3 most common invertebrates found with the filtered beaker 250 micron method being copepods, cladocera, ostracods. At the CCBER Roost Lab, the FB250 samples were inspected under a microscope and sorted by invertebrate taxa by interns. Samples are collected at 6 sites each academic quarter (4 times per year). The E-DNA samples are lastly sent to an external lab to be further inspected. According to NCOS researchers Grinstead, Huitema, Norman, et al., “this study aims to reveal the comparative difference in macroinvertebrate species diversity and abundance over time as conservation continues to increase through the NCOS wetlands, particularly using it as a model to prompt conservation efforts in other locations. The results of this experiment serve as a foundation for future discovery of how water quality can be a great indicator of the state of a wetland.” Understanding how temperature shapes invertebrate abundance at NCOS is a natural extension of this goal; temperature is a direct force acting on aquatic ecosystems, and the invertebrates that respond to it are the same organisms researchers rely on to read the health of the wetland. To examine the relationship between water temperature and invertebrate abundance, temperature was divided into five equal ranges spanning the observed extent of the dataset (10.0–38.0°C), and the distribution of log-transformed abundance within each range was visualized for each taxon.
 
 ## Results
-*(NATALIE)*
-- Discuss findings clearly (patterns, trends, etc.)
-- Connect results to your research questions and figures
-- Present figures in an order that tells a clear ecological story
 
+*(NATALIE)* - Discuss findings clearly (patterns, trends, etc.) - Connect results to your research questions and figures - Present figures in an order that tells a clear ecological story
 
 ## Figure 1 - What is the average abundance distribution of the three dominant taxa?
 
@@ -295,8 +282,7 @@ figure1
 
 ```
 
-- First we analyzed the variance of average abundance/L across our three taxa in our scope. We found that Copepod was the most abundant at NCOS, followed by Ostracod, then slightly behind by Cladocera. Cladocera seemed to have the widest distribution of average abundance/L, whereas Copepod had the smallest and more consistent distribution across various sample points, and Ostracod had a moderate sized distribution. This figure supports our research question as it visualized specifically ***how*** abundant each taxa is and how spread out their data points were across all sites and temperatures.
-
+-   First we analyzed the variance of average abundance/L across our three taxa in our scope. We found that Copepod was the most abundant at NCOS, followed by Ostracod, then slightly behind by Cladocera. Cladocera seemed to have the widest distribution of average abundance/L, whereas Copepod had the smallest and more consistent distribution across various sample points, and Ostracod had a moderate sized distribution. This figure supports our research question as it visualized specifically ***how*** abundant each taxa is and how spread out their data points were across all sites and temperatures.
 
 ## Figure 2 - How does abundance vary across temperature ranges for each taxon?
 
@@ -360,8 +346,7 @@ figure2
 
 ```
 
-- After understanding specifically ***how*** abundant each taxa was across all sites, we created Figure 2 based on average abundance and average water temperature per sample. Average temperatures varied from 0-38ºC, thus we split up the whole temperature range equally into 5 color coded ranges: \textcolor{coldblue}{dark blue} (10.0-15.6ºC), \textcolor{lightblue}{light blue} (15.6-21.2ºC), \textcolor{lightyellow}{yellow} (21.2-26.8ºC), \textcolor{softorange}{orange} (26.8-32.4ºC), and \textcolor{hotred}{red} (32.4-38.0ºC). Cladocera was most abundant in a temperature range between 10.0-21.2ºC, Copepod had the widest abundance range of 10.0-26.8ºC, and Ostracod was most abundant between 15.6º-26.8ºC. This figure supports our research question as it explains in which specific range of temperature was there the most average abundance of taxon/L.
-
+-   After understanding specifically ***how*** abundant each taxa was across all sites, we created Figure 2 based on average abundance and average water temperature per sample. Average temperatures varied from 0-38ºC, thus we split up the whole temperature range equally into 5 color coded ranges: \textcolor{coldblue}{dark blue} (10.0-15.6ºC), \textcolor{lightblue}{light blue} (15.6-21.2ºC), \textcolor{lightyellow}{yellow} (21.2-26.8ºC), \textcolor{softorange}{orange} (26.8-32.4ºC), and \textcolor{hotred}{red} (32.4-38.0ºC). Cladocera was most abundant in a temperature range between 10.0-21.2ºC, Copepod had the widest abundance range of 10.0-26.8ºC, and Ostracod was most abundant between 15.6º-26.8ºC. This figure supports our research question as it explains in which specific range of temperature was there the most average abundance of taxon/L.
 
 ## Figure 3 - What is the strength of the relationship between average water temperature and average invertebrate abundance across by season?
 
@@ -399,7 +384,7 @@ figure3
 
 ```
 
-- It was clear from Figure 2 that aquatic invertebrates tended to be more abundant from an average water temperature from 10.0-26.8ºC. Thus, we further explored ***when*** exactly in the year this water temperature tended to occur. Figure 3 shows average abundance/L by average water temperature (ºC) for each of the three taxa per season, between 2020-2024. Winter stood out to have the lowest average water temperatures between 10.0-20ºC, thus we concluded that average aquatic invertebrate abundance is most likely highest during the Winter at NCOS. This figure connects to our research question as it answers the correlation between water temperature, aquatic abundance during a specific time range.
+-   It was clear from Figure 2 that aquatic invertebrates tended to be more abundant from an average water temperature from 10.0-26.8ºC. Thus, we further explored ***when*** exactly in the year this water temperature tended to occur. Figure 3 shows average abundance/L by average water temperature (ºC) for each of the three taxa per season, between 2020-2024. Winter stood out to have the lowest average water temperatures between 10.0-20ºC, thus we concluded that average aquatic invertebrate abundance is most likely highest during the Winter at NCOS. This figure connects to our research question as it answers the correlation between water temperature, aquatic abundance during a specific time range.
 
 ## Discussion
 
@@ -424,4 +409,3 @@ Salinity is the most directly relevant confounding variable, as winter rainfall 
 Seasonal sampling captures broad temporal trends but cannot account for finer-scale environmental variation; a single sample per season represents a snapshot that may not reflect conditions experienced by invertebrate populations over preceding weeks. Since invertebrate community structure responds to accumulated conditions rather than instantaneous measurements, short-term fluctuations between sampling events go undetected. Without continuously deployed temperature loggers at each of the 12 Devereux Slough sites, it remains difficult to assess whether recorded temperatures are representative of the broader inter-sampling period, and multi-year data would be needed to distinguish restoration-driven trajectories from recurring seasonal cycles.
 
 ## References
-
