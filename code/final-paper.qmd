@@ -240,13 +240,8 @@ theme_set(
 
 ## Methods
 
+ The goal of the study was to collect samples of taxa and water quality at all 12 Deverux Slough sites using pH and YSI meters, as well as 250 μm filtered beakers (FB250) and eDNA (Environmental DNA). More specifically, the invertebrate samples are collected by student interns and volunteers using a filtered bucket and dip net method, with the 3 most common invertebrates found with the filtered beaker 250 micron method being copepods, cladocera, ostracods. At the CCBER Roost Lab, the FB250 samples were inspected under a microscope and sorted by invertebrate taxa by interns. Samples are collected at 6 sites each academic quarter (4 times per year). The E-DNA samples are lastly sent to an external lab to be further inspected. According to NCOS researchers Grinstead, Huitema, Norman, et al., “this study aims to reveal the comparative difference in macroinvertebrate species diversity and abundance over time as conservation continues to increase through the NCOS wetlands, particularly using it as a model to prompt conservation efforts in other locations. The results of this experiment serve as a foundation for future discovery of how water quality can be a great indicator of the state of a wetland.” Understanding how temperature shapes invertebrate abundance at NCOS is a natural extension of this goal; temperature is a direct force acting on aquatic ecosystems, and the invertebrates that respond to it are the same organisms researchers rely on to read the health of the wetland.  To examine the relationship between water temperature and invertebrate abundance, temperature was divided into five equal ranges spanning the observed extent of the dataset (10.0–38.0°C), and the distribution of log-transformed abundance within each range was visualized for each taxon.
 
-*(JUNE)*
-- Describe temporal and spatial coverage of dataset
-- Reference monitoring report or NCOS-related publications on data collection
-- Describe frequency of data collection
-- Describe statistical analysis or descriptive statistics (linked to your question)
--->
 
 ## Results
 *(NATALIE)*
