@@ -50,10 +50,16 @@ The rendered final paper is
 The rendered timeline check in is 
 [here](https://github.com/n921c/envs193dd-final-project/blob/main/code/figure-drafts.pdf).
 
+The rendered final paper is
+[here](https://github.com/n921c/envs193dd-final-project/blob/main/code/final-paper.pdf)
+
 ## Related repositories
 
-The proposal is 
+The project proposal is 
 [here](https://github.com/n921c/project-proposal).
 
 The rendered literature dissection is 
 [here](https://github.com/herreralinda847/literature_dissection/blob/main/documents/template.pdf).
+
+
+
